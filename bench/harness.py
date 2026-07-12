@@ -304,16 +304,41 @@ def make_mem0() -> Any:
   return Mem0MemoryProvider()
 
 
+# Path to a TencentDB-Agent-Memory checkout with node deps installed and its
+# Gateway sidecar already running on 127.0.0.1:8420 (see bench/README.md).
+TDAI_CHECKOUT = os.environ.get("TDAI_CHECKOUT", "")
+
+
+def make_tencentdb() -> Any:
+  provider_dir = str(Path(TDAI_CHECKOUT) / "hermes-plugin" / "memory")
+  if provider_dir not in sys.path:
+    sys.path.insert(0, provider_dir)
+  os.environ.setdefault("MEMORY_TENCENTDB_GATEWAY_PORT", "8420")
+  from memory_tencentdb import MemoryTencentdbProvider
+  return MemoryTencentdbProvider()
+
+
 FACTORIES: dict[str, Callable[[], Any]] = {
   "cortext": make_cortext,
   "holographic": make_holographic,
   "holographic-tools": make_holographic_tools,
   "mem0": make_mem0,
+  "tencentdb": make_tencentdb,
 }
 
 # Mem0 extracts facts server-side after client.add() returns; give it time to
 # settle before cold-start recall so eventual consistency doesn't punish it.
-SETTLE = {"mem0": {"settle_seconds": 5.0, "session_settle_seconds": 10.0}}
+# TencentDB's Gateway runs its L1 extraction pipeline asynchronously after
+# /capture; /session/end flushes it, but LLM extraction still needs wall time.
+SETTLE = {
+  "mem0": {"settle_seconds": 5.0, "session_settle_seconds": 10.0},
+  "tencentdb": {"settle_seconds": 10.0, "session_settle_seconds": 15.0},
+}
+
+# Providers that delegate to a loopback sidecar process: the in-process socket
+# blocker can't reach the sidecar's own network use, so an "offline" result
+# would be meaningless. Skip the phase and report n/a.
+OFFLINE_NOT_MEASURABLE = {"tencentdb"}
 
 
 def save_results(results: list[ProviderResult], out_dir: Path) -> Path:

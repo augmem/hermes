@@ -22,6 +22,7 @@ import random
 import sys
 import tempfile
 import time
+import uuid
 from pathlib import Path
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
@@ -87,12 +88,14 @@ def markdown_report(results: list[ProviderResult], judgments: dict | None) -> st
     offline = sum(1 for p in r.probes if p.offline_ok)
     overhead = harness.est_tokens(" " * (r.tool_schema_chars + r.system_prompt_chars))
     median_tokens = tokens[len(tokens) // 2]
+    offline_cell = ("n/a (sidecar)" if r.provider in harness.OFFLINE_NOT_MEASURABLE
+                    else f"{offline}/{len(r.probes)} probes")
     lines.append(
       f"| {r.provider} | {hit}/{total} facts | {stale} | "
       f"{median_tokens} | {overhead} | {median_tokens + overhead} | "
       f"{lat[len(lat) // 2]:.0f} | "
       f"{r.ingest_network_connections}/{r.recall_network_connections} | "
-      f"{offline}/{len(r.probes)} probes | {r.tool_schema_count} |")
+      f"{offline_cell} | {r.tool_schema_count} |")
   if judgments:
     lines += ["", "## Blind judge (LLM answers from each packet)", ""]
     lines.append("| Probe | " + " | ".join(sorted({p for j in judgments.values() for p in j['scores']})) + " | Winner |")
@@ -121,6 +124,10 @@ def main() -> int:
   args = parser.parse_args()
 
   harness.load_dotenv()
+  # Unique per-run identity so cloud-backed providers (Mem0) can't carry
+  # memories from a previous benchmark run into this one.
+  scenario.USER_ID = f"bench-user-{uuid.uuid4().hex[:10]}"
+  print(f"run identity: {scenario.USER_ID}")
   out_dir = REPO_ROOT / args.out if not Path(args.out).is_absolute() else Path(args.out)
   homes_base = Path(args.homes) if args.homes else Path(tempfile.mkdtemp(prefix="hermes-membench-"))
 
@@ -135,7 +142,7 @@ def main() -> int:
       name,
       FACTORIES[name],
       homes_base / name,
-      offline_check=not args.no_offline,
+      offline_check=not args.no_offline and name not in harness.OFFLINE_NOT_MEASURABLE,
       **SETTLE.get(name, {}),
     )
     results.append(result)

@@ -102,10 +102,14 @@ def judge_probe(
   raw = raw.strip().removeprefix("```json").removeprefix("```").removesuffix("```").strip()
   verdict = json.loads(raw)
   scores = {labels[l]: s for l, s in (verdict.get("scores") or {}).items() if l in labels}
-  winner_label = verdict.get("winner", "")
+  winner = labels.get(verdict.get("winner", ""), "")
+  if scores and winner:
+    top = max(scores.values())
+    if list(scores.values()).count(top) > 1:
+      winner = "tie"
   return {
     "scores": scores,
-    "winner": labels.get(winner_label, ""),
+    "winner": winner,
     "reason": verdict.get("reason", ""),
     "label_map": labels,
   }

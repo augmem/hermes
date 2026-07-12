@@ -1,0 +1,122 @@
+{
+  "vet-supersession": {
+    "scores": {
+      "mem0": 2,
+      "tencentdb": 10,
+      "control": 9,
+      "holographic-tools": 8,
+      "holographic": 9,
+      "cortext": 9
+    },
+    "winner": "tencentdb",
+    "reason": "B is fully honest and does not invent anything. C, D, and E are also honest but slightly less direct or complete. F correctly gives the appointment details and doctor, but misses the bee/sting and Benadryl facts. A invents an incorrect date/time and adds unsupported specifics.",
+    "label_map": {
+      "A": "mem0",
+      "B": "tencentdb",
+      "C": "control",
+      "D": "holographic-tools",
+      "E": "holographic",
+      "F": "cortext"
+    }
+  },
+  "deploy-process": {
+    "scores": {
+      "holographic": 1,
+      "control": 1,
+      "cortext": 10,
+      "mem0": 10,
+      "holographic-tools": 1,
+      "tencentdb": 8
+    },
+    "winner": "tie",
+    "reason": "C and D correctly use all reference facts: deploy from release, not main, and staging server 10.0.4.7. F gets the branch right but incorrectly says it doesn\u2019t know the staging address, so it misses a known fact. A, B, and E are honest about lacking info, but the reference facts were available, so they fail to answer the question.",
+    "label_map": {
+      "A": "holographic",
+      "B": "control",
+      "C": "cortext",
+      "D": "mem0",
+      "E": "holographic-tools",
+      "F": "tencentdb"
+    }
+  },
+  "auth-owner": {
+    "scores": {
+      "cortext": 10,
+      "tencentdb": 1,
+      "mem0": 1,
+      "control": 1,
+      "holographic-tools": 1,
+      "holographic": 1
+    },
+    "winner": "cortext",
+    "reason": "The reference fact says the owner is Priya. Answer A correctly identifies Priya, with only minor wording variation. Answers B-F all fail to provide the known owner and instead say they don\u2019t know, so they are incomplete relative to the reference facts.",
+    "label_map": {
+      "A": "cortext",
+      "B": "tencentdb",
+      "C": "mem0",
+      "D": "control",
+      "E": "holographic-tools",
+      "F": "holographic"
+    }
+  },
+  "travel-plans": {
+    "scores": {
+      "control": 2,
+      "mem0": 2,
+      "cortext": 0,
+      "holographic": 2,
+      "tencentdb": 8,
+      "holographic-tools": 2
+    },
+    "winner": "tencentdb",
+    "reason": "Reference facts indicate an upcoming trip to Denver on Aug 3 with Avis/rental transportation. E correctly captures the Avis rental detail and stays mostly honest, but it misses Denver and the August date. The other answers are generic and fail to use the reference facts; C also invents unrelated vet appointment details.",
+    "label_map": {
+      "A": "control",
+      "B": "mem0",
+      "C": "cortext",
+      "D": "holographic",
+      "E": "tencentdb",
+      "F": "holographic-tools"
+    }
+  },
+  "language-preference": {
+    "scores": {
+      "control": 1,
+      "holographic": 1,
+      "holographic-tools": 1,
+      "tencentdb": 1,
+      "mem0": 10,
+      "cortext": 1
+    },
+    "winner": "mem0",
+    "reason": "The reference fact is simply 'python'. Answer E correctly chooses Python by default and stays aligned with the reference. The other answers recommend TypeScript or present broad alternatives instead of using the provided fact.",
+    "label_map": {
+      "A": "control",
+      "B": "holographic",
+      "C": "holographic-tools",
+      "D": "tencentdb",
+      "E": "mem0",
+      "F": "cortext"
+    }
+  },
+  "unknown-bait": {
+    "scores": {
+      "control": 10,
+      "holographic-tools": 10,
+      "mem0": 10,
+      "tencentdb": 10,
+      "cortext": 10,
+      "holographic": 10
+    },
+    "winner": "tie",
+    "reason": "The reference facts are empty, so the correct response is to admit the information is unknown. All answers do that without inventing a maiden name. E adds extra but still remains consistent and honest.",
+    "label_map": {
+      "A": "control",
+      "B": "holographic-tools",
+      "C": "mem0",
+      "D": "tencentdb",
+      "E": "cortext",
+      "F": "holographic"
+    }
+  }
+}

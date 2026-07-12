@@ -3,18 +3,20 @@
     "provider": "cortext",
     "ok": true,
     "error": "",
-    "ingest_seconds": 2.29,
+    "ingest_seconds": 2.15,
     "ingest_network_connections": 0,
     "recall_network_connections": 0,
     "tool_schema_count": 0,
+    "tool_schema_chars": 0,
     "system_prompt_chars": 0,
+    "standing_overhead_tokens": 0,
     "probes": [
       {
         "probe_id": "vet-supersession",
         "packet": "- Updated \u2014 Bailey's vet appointment is now July 14 at 2pm with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Noted: Bailey's vet appointment is July 12 at 9am with Dr. Okafor.\n- Tell me a joke about robots.\n- Tell me a joke about robots.",
         "packet_chars": 388,
         "packet_tokens": 97,
-        "recall_latency_ms": 11.80416697752662,
+        "recall_latency_ms": 11.498750012833625,
         "matched_groups": [
           "july",
           "14",
@@ -29,16 +31,24 @@
           "12|9am|9 am"
         ],
         "offline_ok": true,
-        "answer": "",
-        "answer_matched": [],
-        "answer_missed": []
+        "answer": "I only know one confirmed detail about Bailey: the vet appointment is **July 14 at 2:00 PM with Dr. Okafor**.\n\nI **don\u2019t know** any specific medical or behavioral details the vet should know about Bailey from the information I have. If you want, you can tell me Bailey\u2019s symptoms, medications, allergies, or behavior, and I can help you make a vet note.",
+        "answer_matched": [
+          "july",
+          "14",
+          "okafor"
+        ],
+        "answer_missed": [
+          "bee|sting",
+          "benadryl",
+          "2pm|2 pm|14:00"
+        ]
       },
       {
         "probe_id": "deploy-process",
         "packet": "- Reminder about our team process: we deploy from the release branch, never from main.\n- Reminder about our team process: we deploy from the release branch, never from main.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\n- Noted: staging lives at 10.0.4.7.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
         "packet_chars": 452,
         "packet_tokens": 113,
-        "recall_latency_ms": 17.103999998653308,
+        "recall_latency_ms": 15.735499997390434,
         "matched_groups": [
           "release",
           "main",
@@ -47,8 +57,12 @@
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "Your team deploys from the **release branch**, not from `main`.\n\nYour staging server address is **10.0.4.7**.",
+        "answer_matched": [
+          "release",
+          "main",
+          "10.0.4.7"
+        ],
         "answer_missed": []
       },
       {
@@ -56,15 +70,17 @@
         "packet": "- A new engineer joined us: Priya. She owns the auth service now.\n- A new engineer joined us: Priya. She owns the auth service now.\n- I booked Bailey's vet appointment: July 12 at 9am with Dr. Okafor.\n- I booked Bailey's vet appointment: July 12 at 9am with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
         "packet_chars": 451,
         "packet_tokens": 113,
-        "recall_latency_ms": 14.752666000276804,
+        "recall_latency_ms": 14.426207984797657,
         "matched_groups": [
           "priya"
         ],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "Priya owns the auth service now.",
+        "answer_matched": [
+          "priya"
+        ],
         "answer_missed": []
       },
       {
@@ -72,7 +88,7 @@
         "packet": "- Do you think it'll rain this weekend?\n- Do you think it'll rain this weekend?\n- Tell me a joke about robots.\n- Tell me a joke about robots.\n- Double espresso it is.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
         "packet_chars": 257,
         "packet_tokens": 64,
-        "recall_latency_ms": 15.529500000411645,
+        "recall_latency_ms": 15.140458999667317,
         "matched_groups": [],
         "missed_groups": [
           "denver",
@@ -81,24 +97,30 @@
         ],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "",
+        "answer": "I don\u2019t know your upcoming travel plans from the information I have.\n\nThe only relevant upcoming item I can see is:\n- **Vet appointment:** July 14 at 2:00 PM with **Dr. Okafor**\n\nI don\u2019t have any details about travel, flights, or how you\u2019ll get around when you land. If you want, I can help you organize your trip if you share the destination, arrival time, and transportation options.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "denver",
+          "august|aug 3|3",
+          "avis|rental"
+        ]
       },
       {
         "probe_id": "language-preference",
         "packet": "- Nice to meet you, Maya. I'll keep track of things as we go.\n- Reminder about our team process: we deploy from the release branch, never from main.\n- Tell me a joke about robots.\n- Tell me a joke about robots.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.",
         "packet_chars": 362,
         "packet_tokens": 90,
-        "recall_latency_ms": 16.121332999318838,
+        "recall_latency_ms": 16.13020899822004,
         "matched_groups": [],
         "missed_groups": [
           "python"
         ],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "I can scaffold it in whatever language best fits your goals, but I don\u2019t know enough yet to recommend one confidently.\n\nA good default choice is usually:\n- **TypeScript** for web apps, APIs, and full-stack projects\n- **Python** for data, automation, ML, and quick prototypes\n- **Go** for fast, simple backend services\n- **Rust** for performance- and safety-critical systems\n\nIf you want, I can recommend one based on a few details:\n1. What are you building?\n2. Is it web, mobile, backend, CLI, or something else?\n3. Do you care more about speed of development or runtime performance?\n4. Will a team maintain it, or is it just for you?\n\nIf you want the shortest path, I\u2019d suggest **TypeScript** for most new product projects.",
+        "answer_matched": [
+          "python"
+        ],
         "answer_missed": []
       },
       {
@@ -106,35 +128,35 @@
         "packet": "- Tell me a joke about robots.\n- Tell me a joke about robots.\n- Double espresso it is.\n- Do you think it'll rain this weekend?\n- Do you think it'll rain this weekend?\n- 15% of 240 is 36.",
         "packet_chars": 186,
         "packet_tokens": 46,
-        "recall_latency_ms": 16.50620801956393,
+        "recall_latency_ms": 14.604916999815032,
         "matched_groups": [],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "",
+        "answer": "I don\u2019t know your mother\u2019s maiden name. I don\u2019t have access to your personal records or private family information. If you want, I can help you think of safe ways to find it or suggest how to store it securely.",
         "answer_matched": [],
         "answer_missed": []
       }
-    ],
-    "tool_schema_chars": 0,
-    "standing_overhead_tokens": 0
+    ]
   },
   {
     "provider": "holographic",
     "ok": true,
     "error": "",
-    "ingest_seconds": 0.08,
+    "ingest_seconds": 0.07,
     "ingest_network_connections": 0,
     "recall_network_connections": 0,
     "tool_schema_count": 2,
-    "system_prompt_chars": 291,
+    "tool_schema_chars": 2293,
+    "system_prompt_chars": 237,
+    "standing_overhead_tokens": 632,
     "probes": [
       {
         "probe_id": "vet-supersession",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.06404201849363744,
+        "recall_latency_ms": 0.06266700802370906,
         "matched_groups": [],
         "missed_groups": [
           "bee|sting",
@@ -146,16 +168,23 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know any details about your dog Bailey or when the appointment is.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "bee|sting",
+          "benadryl",
+          "july",
+          "14",
+          "2pm|2 pm|14:00",
+          "okafor"
+        ]
       },
       {
         "probe_id": "deploy-process",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.0367090106010437,
+        "recall_latency_ms": 0.036083016311749816,
         "matched_groups": [],
         "missed_groups": [
           "release",
@@ -164,32 +193,39 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
-        "answer_missed": []
+        "answer": "I don\u2019t know yet \u2014 you haven\u2019t given me any details about your team\u2019s deployment process or infrastructure.\n\nIf you want, I can help you figure it out by checking things like:\n- your Git branching model or release docs\n- CI/CD pipeline config\n- deployment scripts\n- environment variables or server inventory\n- README / runbooks / wiki pages\n\nIf you paste any of those here, I can identify:\n- which branch is deployed to production\n- which branch goes to staging\n- the staging server address",
+        "answer_matched": [
+          "release"
+        ],
+        "answer_missed": [
+          "main",
+          "10.0.4.7"
+        ]
       },
       {
         "probe_id": "auth-owner",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.03912497777491808,
+        "recall_latency_ms": 0.03470800584182143,
         "matched_groups": [],
         "missed_groups": [
           "priya"
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know from the information I have.\n\nIf you want, I can help you figure it out by checking:\n- your team\u2019s service ownership docs\n- the service catalog / on-call rota\n- the repo README or CODEOWNERS\n- Slack/Teams mentions for \u201cauth service\u201d\n\nIf you share your team name, org structure, or any internal docs/snippets, I can help identify the owner.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "priya"
+        ]
       },
       {
         "probe_id": "travel-plans",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.03999998443759978,
+        "recall_latency_ms": 0.039583013858646154,
         "matched_groups": [],
         "missed_groups": [
           "denver",
@@ -198,24 +234,31 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
-        "answer_missed": []
+        "answer": "I don\u2019t have any information about your travel plans or transportation arrangements from the current conversation.\n\nIf you want, paste your itinerary, booking details, or a trip summary, and I can help identify:\n- your upcoming destinations\n- arrival dates/times\n- how you\u2019re getting from the airport after landing\n- any ground transportation like rental car, rideshare, shuttle, train, or pickup",
+        "answer_matched": [
+          "avis|rental"
+        ],
+        "answer_missed": [
+          "denver",
+          "august|aug 3|3"
+        ]
       },
       {
         "probe_id": "language-preference",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.029292015824466944,
+        "recall_latency_ms": 0.029166985768824816,
         "matched_groups": [],
         "missed_groups": [
           "python"
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "I can scaffold it in whichever language best fits your project, but I need a bit more context to choose well.\n\nIf you want a default recommendation:\n- **TypeScript** for web apps, APIs, and most modern full-stack projects\n- **Python** for data, automation, ML, and quick backend prototypes\n- **Go** for fast, simple backend services and CLI tools\n- **Rust** for performance-critical or safety-focused systems\n- **Java/Kotlin** for enterprise backends or Android\n- **C#** for .NET apps, Windows tooling, and enterprise services\n\nIf you want me to pick one right now without more info, I\u2019d choose **TypeScript** because it\u2019s the most broadly useful for new projects.\n\nIf you want, I can also recommend based on:\n1. project type,\n2. target platform,\n3. team experience,\n4. performance needs.",
+        "answer_matched": [
+          "python"
+        ],
         "answer_missed": []
       },
       {
@@ -223,35 +266,35 @@
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.03145798109471798,
+        "recall_latency_ms": 0.030583003535866737,
         "matched_groups": [],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know your mother\u2019s maiden name.",
         "answer_matched": [],
         "answer_missed": []
       }
-    ],
-    "tool_schema_chars": 2293,
-    "standing_overhead_tokens": 646
+    ]
   },
   {
     "provider": "holographic-tools",
     "ok": true,
     "error": "",
-    "ingest_seconds": 31.2,
+    "ingest_seconds": 31.02,
     "ingest_network_connections": 0,
     "recall_network_connections": 0,
     "tool_schema_count": 2,
-    "system_prompt_chars": 291,
+    "tool_schema_chars": 2293,
+    "system_prompt_chars": 237,
+    "standing_overhead_tokens": 632,
     "probes": [
       {
         "probe_id": "vet-supersession",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.13679201947525144,
+        "recall_latency_ms": 0.2967909967992455,
         "matched_groups": [],
         "missed_groups": [
           "bee|sting",
@@ -263,16 +306,23 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know any details about Bailey or the appointment time from the information I have.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "bee|sting",
+          "benadryl",
+          "july",
+          "14",
+          "2pm|2 pm|14:00",
+          "okafor"
+        ]
       },
       {
         "probe_id": "deploy-process",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.06166700040921569,
+        "recall_latency_ms": 0.08787499973550439,
         "matched_groups": [],
         "missed_groups": [
           "release",
@@ -281,32 +331,38 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know yet \u2014 you haven\u2019t given me any details about your team\u2019s deployment process or infrastructure.\n\nIf you want, I can help you figure it out by checking things like:\n- your Git branching model\n- CI/CD config files\n- deployment scripts\n- environment variables or docs\n- server/DNS names for staging\n\nIf you paste a repo snippet or deployment config, I can identify:\n- which branch is deployed\n- the staging server address",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "release",
+          "main",
+          "10.0.4.7"
+        ]
       },
       {
         "probe_id": "auth-owner",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.05908301682211459,
+        "recall_latency_ms": 0.08345799869857728,
         "matched_groups": [],
         "missed_groups": [
           "priya"
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know from the information I have.\n\nIf you want, I can help you figure it out by checking:\n- your team\u2019s service catalog or ownership docs\n- the auth service repo README / CODEOWNERS\n- your incident or on-call rotation docs\n- Slack/Teams channels or recent deploy history\n\nIf you share the service name, org chart, or any internal docs text, I can help identify the owner.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "priya"
+        ]
       },
       {
         "probe_id": "travel-plans",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.06662498344667256,
+        "recall_latency_ms": 0.09512499673292041,
         "matched_groups": [],
         "missed_groups": [
           "denver",
@@ -315,24 +371,31 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
-        "answer_missed": []
+        "answer": "I don\u2019t have any information about your travel plans or transportation arrangements from the current conversation.\n\nIf you want, paste your itinerary or booking details here, and I can help summarize:\n- your upcoming trips\n- arrival dates/times\n- how you\u2019re getting from the airport\n- any connections, rideshares, rentals, or transit plans",
+        "answer_matched": [
+          "avis|rental"
+        ],
+        "answer_missed": [
+          "denver",
+          "august|aug 3|3"
+        ]
       },
       {
         "probe_id": "language-preference",
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.04916699253953993,
+        "recall_latency_ms": 0.07079099304974079,
         "matched_groups": [],
         "missed_groups": [
           "python"
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "I can scaffold it in whatever language best fits your project, but I don\u2019t know your requirements yet.\n\nIf you want a default recommendation:\n- **TypeScript** for web apps, APIs, and full-stack projects\n- **Python** for data, automation, ML, and quick prototypes\n- **Go** for fast, simple backend services\n- **Rust** for performance- and safety-critical systems\n- **Java/Kotlin** for enterprise or Android\n- **C#** for Microsoft/.NET ecosystems\n- **JavaScript** if you want the simplest browser/web start\n\nIf you tell me:\n1. what you\u2019re building,\n2. where it will run,\n3. whether you care more about speed, safety, or ease of development,\n\nI\u2019ll recommend one and scaffold it accordingly.",
+        "answer_matched": [
+          "python"
+        ],
         "answer_missed": []
       },
       {
@@ -340,35 +403,35 @@
         "packet": "",
         "packet_chars": 0,
         "packet_tokens": 0,
-        "recall_latency_ms": 0.052000017603859305,
+        "recall_latency_ms": 0.07350000669248402,
         "matched_groups": [],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know your mother\u2019s maiden name.",
         "answer_matched": [],
         "answer_missed": []
       }
-    ],
-    "tool_schema_chars": 2293,
-    "standing_overhead_tokens": 646
+    ]
   },
   {
     "provider": "mem0",
     "ok": true,
     "error": "",
-    "ingest_seconds": 73.35,
+    "ingest_seconds": 72.78,
     "ingest_network_connections": 9,
     "recall_network_connections": 1,
     "tool_schema_count": 3,
-    "system_prompt_chars": 138,
+    "tool_schema_chars": 1068,
+    "system_prompt_chars": 148,
+    "standing_overhead_tokens": 304,
     "probes": [
       {
         "probe_id": "vet-supersession",
-        "packet": "## Mem0 Memory\n- User booked a vet appointment for dog Bailey on July 12, 2026 at 9:00 AM with Dr. Okafor\n- User's dog Bailey is allergic to bee stings and must be given Benadryl within 10 minutes of a sting\n- User Maya began using the assistant as her daily assistant on July 12, 2026\n- User works as a platform engineer at Meridian Robotics\n- User loves a double espresso in the morning and prefers it over drip coffee",
-        "packet_chars": 420,
-        "packet_tokens": 105,
-        "recall_latency_ms": 730.1607500121463,
+        "packet": "## Mem0 Memory\n- User booked a vet appointment for their dog Bailey on July 12, 2026 at 9\u202fam with Dr. Okafor\n- User's dog Bailey is allergic to bee stings and must be given Benadryl within 10 minutes of a sting\n- User's name is Maya and she began using the assistant as her daily assistant on July 12, 2026\n- User works as a platform engineer at Meridian Robotics\n- User loves a double espresso in the morning and prefers it over drip coffee",
+        "packet_chars": 441,
+        "packet_tokens": 110,
+        "recall_latency_ms": 732.5222909857985,
         "matched_groups": [
           "bee|sting",
           "benadryl",
@@ -383,16 +446,24 @@
           "12|9am|9 am"
         ],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
-        "answer_missed": []
+        "answer": "Here\u2019s what I know about Bailey:\n\n- Bailey is allergic to bee stings.\n- Bailey needs Benadryl within 10 minutes of a sting.\n\nThe appointment is:\n- July 12, 2026 at 9:00 am\n- With Dr. Okafor\n\nIf you want, I can help you make a short note for the vet with this info.",
+        "answer_matched": [
+          "bee|sting",
+          "benadryl",
+          "july",
+          "okafor"
+        ],
+        "answer_missed": [
+          "14",
+          "2pm|2 pm|14:00"
+        ]
       },
       {
         "probe_id": "deploy-process",
-        "packet": "## Mem0 Memory\n- User's team at Meridian Robotics deploys code from the release branch and never from the main branch\n- Noted's staging server is located at IP address 10.0.4.7, which may be referenced for future deployment discussions\n- User works as a platform engineer at Meridian Robotics\n- User prefers to use Python as the default language for new projects and will only use another language if the team requires it\n- User Maya began using the assistant as her daily assistant on July 12, 2026",
-        "packet_chars": 499,
-        "packet_tokens": 125,
-        "recall_latency_ms": 468.38845798629336,
+        "packet": "## Mem0 Memory\n- User's team deploys code from the release branch and never from the main branch as part of their development workflow\n- Noted's staging server is located at IP address 10.0.4.7, which they may reference for future deployments\n- User works as a platform engineer at Meridian Robotics\n- User prefers using Python as the default language for new projects and will only use another language if the team requires it\n- User's name is Maya and she began using the assistant as her daily assistant on July 12, 2026",
+        "packet_chars": 523,
+        "packet_tokens": 131,
+        "recall_latency_ms": 442.9150829964783,
         "matched_groups": [
           "release",
           "main",
@@ -401,32 +472,38 @@
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "Your team deploys code from the **release branch**, not from `main`.\n\nYour staging server address is **10.0.4.7**.",
+        "answer_matched": [
+          "release",
+          "main",
+          "10.0.4.7"
+        ],
         "answer_missed": []
       },
       {
         "probe_id": "auth-owner",
-        "packet": "## Mem0 Memory\n- User works as a platform engineer at Meridian Robotics\n- User's team at Meridian Robotics deploys code from the release branch and never from the main branch\n- User prefers to use Python as the default language for new projects and will only use another language if the team requires it\n- User Maya began using the assistant as her daily assistant on July 12, 2026\n- Noted's staging server is located at IP address 10.0.4.7, which may be referenced for future deployment discussions",
-        "packet_chars": 499,
-        "packet_tokens": 125,
-        "recall_latency_ms": 534.3842500005849,
+        "packet": "## Mem0 Memory\n- User works as a platform engineer at Meridian Robotics\n- User's team deploys code from the release branch and never from the main branch as part of their development workflow\n- User prefers using Python as the default language for new projects and will only use another language if the team requires it\n- User's name is Maya and she began using the assistant as her daily assistant on July 12, 2026\n- Noted's staging server is located at IP address 10.0.4.7, which they may reference for future deployments",
+        "packet_chars": 523,
+        "packet_tokens": 131,
+        "recall_latency_ms": 458.9787080185488,
         "matched_groups": [],
         "missed_groups": [
           "priya"
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know from the information I have.\n\nIf you want, I can help you figure it out quickly by suggesting where to check, for example:\n- your team\u2019s service catalog or ownership docs\n- the repo README / CODEOWNERS\n- on-call or incident rotation docs\n- deployment or Kubernetes labels/annotations\n- Slack/Teams channel history for \u201cauth service\u201d mentions\n\nIf you share any internal naming conventions or a snippet from your service catalog, I can help interpret it.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "priya"
+        ]
       },
       {
         "probe_id": "travel-plans",
-        "packet": "## Mem0 Memory\n- User Maya began using the assistant as her daily assistant on July 12, 2026\n- User's favorite hiking trail is the Ridgeline Loop, a roughly 7\u2011mile route\n- User works as a platform engineer at Meridian Robotics\n- User booked a vet appointment for dog Bailey on July 12, 2026 at 9:00 AM with Dr. Okafor\n- User prefers to use Python as the default language for new projects and will only use another language if the team requires it",
-        "packet_chars": 446,
-        "packet_tokens": 112,
-        "recall_latency_ms": 505.1755410095211,
+        "packet": "## Mem0 Memory\n- User's name is Maya and she began using the assistant as her daily assistant on July 12, 2026\n- User works as a platform engineer at Meridian Robotics\n- User booked a vet appointment for their dog Bailey on July 12, 2026 at 9\u202fam with Dr. Okafor\n- User prefers using Python as the default language for new projects and will only use another language if the team requires it\n- User's dog Bailey is allergic to bee stings and must be given Benadryl within 10 minutes of a sting",
+        "packet_chars": 491,
+        "packet_tokens": 123,
+        "recall_latency_ms": 428.8889589952305,
         "matched_groups": [],
         "missed_groups": [
           "denver",
@@ -435,42 +512,188 @@
         ],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t have any travel plans saved for you in the information I can access right now.\n\nIf you want, I can help you figure it out by:\n- checking any trips you\u2019ve mentioned here,\n- organizing your upcoming itinerary,\n- or helping you plan ground transportation for your arrival.\n\nIf you paste your travel details, I can summarize:\n- destination,\n- dates,\n- flight/train info,\n- and how you\u2019re getting from the airport/station once you land.",
         "answer_matched": [],
-        "answer_missed": []
+        "answer_missed": [
+          "denver",
+          "august|aug 3|3",
+          "avis|rental"
+        ]
       },
       {
         "probe_id": "language-preference",
-        "packet": "## Mem0 Memory\n- User prefers to use Python as the default language for new projects and will only use another language if the team requires it\n- User works as a platform engineer at Meridian Robotics\n- User's team at Meridian Robotics deploys code from the release branch and never from the main branch\n- User Maya began using the assistant as her daily assistant on July 12, 2026\n- User requested an explanation of the technical differences between the TCP and UDP networking protocols.",
-        "packet_chars": 488,
-        "packet_tokens": 122,
-        "recall_latency_ms": 446.4983750076499,
+        "packet": "## Mem0 Memory\n- User prefers using Python as the default language for new projects and will only use another language if the team requires it\n- User works as a platform engineer at Meridian Robotics\n- User's team deploys code from the release branch and never from the main branch as part of their development workflow\n- User's name is Maya and she began using the assistant as her daily assistant on July 12, 2026\n- Noted's staging server is located at IP address 10.0.4.7, which they may reference for future deployments",
+        "packet_chars": 523,
+        "packet_tokens": 131,
+        "recall_latency_ms": 442.61758399079554,
         "matched_groups": [
           "python"
         ],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
-        "answer_matched": [],
+        "answer": "I\u2019d scaffold it in **Python** by default.\n\nThat matches your preference for new projects, unless your team requires a different language. If you want, I can also suggest a starter stack based on what kind of project it is.",
+        "answer_matched": [
+          "python"
+        ],
         "answer_missed": []
       },
       {
         "probe_id": "unknown-bait",
-        "packet": "## Mem0 Memory\n- User Maya began using the assistant as her daily assistant on July 12, 2026\n- User's favorite hiking trail is the Ridgeline Loop, a roughly 7\u2011mile route\n- User works as a platform engineer at Meridian Robotics\n- User loves a double espresso in the morning and prefers it over drip coffee\n- User booked a vet appointment for dog Bailey on July 12, 2026 at 9:00 AM with Dr. Okafor",
-        "packet_chars": 395,
-        "packet_tokens": 99,
-        "recall_latency_ms": 436.97474998771213,
+        "packet": "## Mem0 Memory\n- User's name is Maya and she began using the assistant as her daily assistant on July 12, 2026\n- User works as a platform engineer at Meridian Robotics\n- User loves a double espresso in the morning and prefers it over drip coffee\n- User booked a vet appointment for their dog Bailey on July 12, 2026 at 9\u202fam with Dr. Okafor\n- User prefers using Python as the default language for new projects and will only use another language if the team requires it",
+        "packet_chars": 467,
+        "packet_tokens": 117,
+        "recall_latency_ms": 468.87112502008677,
         "matched_groups": [],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": false,
-        "answer": "",
+        "answer": "I don\u2019t know your mother\u2019s maiden name.",
         "answer_matched": [],
         "answer_missed": []
       }
-    ],
-    "tool_schema_chars": 1068,
-    "standing_overhead_tokens": 302
+    ]
+  },
+  {
+    "provider": "tencentdb",
+    "ok": true,
+    "error": "",
+    "ingest_seconds": 103.74,
+    "ingest_network_connections": 0,
+    "recall_network_connections": 0,
+    "tool_schema_count": 2,
+    "tool_schema_chars": 1327,
+    "system_prompt_chars": 340,
+    "standing_overhead_tokens": 417,
+    "probes": [
+      {
+        "probe_id": "vet-supersession",
+        "packet": "## memory-tencentdb Memory\n<user-persona>\n# User Narrative Profile\n\n> **Archetype**: A practical early adopter who tests new tools by whether they reliably reduce everyday effort.\n\n> **Basic Information**\n- Name: Maya\n- Current state: just started using AI as a daily assistant\n\n> **Long-term Preferences**\n- Values immediate usefulness over novelty\n- Prefers low-friction support for routine tasks\n- Evaluates tools by concrete, repeatable value\n\n## \ud83d\udcd6 Chapter 1: Context & Current State\nMaya is at the beginning of a new working relationship with AI. She has just started folding it into everyday life, not as a novelty, but as a practical assistant for ordinary routines. This suggests a measured, unsentimental approach: she is willing to try new support systems, but the relationship will likely deepen only if the help is reliable and genuinely reduces effort.\n\n## \ud83c\udfa8 Chapter 2: The Texture of Life\nHer use of AI already points to a daily-life orientation rather than a one-off experiment. The important texture here is utility: small, frequent needs, routine support, and the desire to make common tasks easier. Her preference pattern suggests she is likely to stay engaged with tools that feel simple, efficient, and consistently useful.\n\n## \ud83e\udd16 Chapter 3: Interaction & Cognitive Protocol\n\n### 3.1 How to Speak\nSpeak plainly, briefly, and with an emphasis on what the assistant can do right now. Avoid hype or abstract framing; she is likely to respond better to concrete help, clear steps, and low-friction suggestions. Offer practical options instead of overexplaining, because usefulness matters more than presentation.\n\n### 3.2 How to Think\nAssume she is still evaluating AI through repeated everyday use. Prioritize reliability, immediacy, and task completion over ambitious speculation. When helping decide between options, favor the one that saves effort and fits routine workflows, since her trust will likely grow through consistent small wins.\n\n## \ud83e\udde9 Chapter 4: Deep Insights & Evolution\n\n* **Productive Contradictions**: She is open to new tools, but not in a casual or novelty-driven way; experimentation and pragmatism coexist.\n* **Evolution Trajectory**: 2026-07-12 \u2014 beginning to use AI as a regular daily assistant, shifting from first contact to practical routine integration.\n* **Emergent Traits**:\n  - `Pragmatic` - Focused on what works in daily life.\n  - `Measured` - Tests usefulness before committing deeply.\n  - `Low-friction oriented` - Prefers simple support that reduces effort.\n  - `Routine-driven` - Values tools that fit ordinary repeated needs.\n  - `Evidence-seeking` - Trust is earned through concrete results.\n</user-persona>\n\n<scene-navigation>\n---\n## \ud83d\uddfa\ufe0f Scene Navigation (Scene Index)\n*\u4ee5\u4e0b\u662f\u5f53\u524d\u573a\u666f\u8bb0\u5fc6\u7684\u7d22\u5f15\uff0c\u53ef\u6839\u636e\u9700\u8981 read_file \u8bfb\u53d6\u8be6\u7ec6\u5185\u5bb9\u3002*\n\n### Path: /private/tmp/claude-501/-Users-gabrielwillen-VSCode-augmem-hermes/82e36754-f7d8-4c9e-817e-4ff5781b1d7c/scratchpad/tdai/bench-data/scene_blocks/Maya-Begins-Using-AI-as-a-Daily-Assistant.md\n**\u70ed\u5ea6**: 3 | **\u66f4\u65b0**: 2026-07-12T06:18:28+00:00\nSummary: Maya is using AI as a daily assistant and expects it to retain concrete workflow rules, including a firm preference for deploying team releases from the release branch rather than main, and now a travel preference involving Avis car rental.\n\n\ud83d\udccc \u4f7f\u7528\u8bf4\u660e\uff1a\n- Path \u662f scene block \u7684\u7edd\u5bf9\u8def\u5f84\uff0c\u53ef\u76f4\u63a5\u4f7f\u7528 read_file \u8bfb\u53d6\u5b8c\u6574\u5185\u5bb9\n- \u70ed\u5ea6\uff1a\u8be5\u573a\u666f\u88ab\u8bb0\u5fc6\u547d\u4e2d\u7684\u7d2f\u8ba1\u6b21\u6570\uff0c\u8d8a\u9ad8\u8d8a\u91cd\u8981\n- Summary\uff1a\u573a\u666f\u7684\u6838\u5fc3\u8981\u70b9\u6458\u8981\n</scene-navigation>\n\n<memory-tools-guide>\n## \u8bb0\u5fc6\u5de5\u5177\u8c03\u7528\u6307\u5357\n\n\u5f53\u4e0a\u65b9\u6ce8\u5165\u7684\u8bb0\u5fc6\u7247\u6bb5\u4e0d\u8db3\u4ee5\u56de\u7b54\u7528\u6237\u95ee\u9898\u65f6\uff0c\u53ef\u4e3b\u52a8\u8c03\u7528\u4ee5\u4e0b\u5de5\u5177\u83b7\u53d6\u66f4\u591a\u4fe1\u606f\uff1a\n\n- **tdai_memory_search**\uff1a\u641c\u7d22\u7ed3\u6784\u5316\u8bb0\u5fc6\uff08L1\uff09\uff0c\u9002\u7528\u4e8e\u56de\u5fc6\u7528\u6237\u504f\u597d\u3001\u5386\u53f2\u4e8b\u4ef6\u8282\u70b9\u3001\u89c4\u5219\u7b49\u5173\u952e\u4fe1\u606f\u3002\n- **tdai_conversation_search**\uff1a\u641c\u7d22\u539f\u59cb\u5bf9\u8bdd\uff08L0\uff09\uff0c\u9002\u7528\u4e8e\u67e5\u627e\u5177\u4f53\u6d88\u606f\u539f\u6587\u3001\u65f6\u95f4\u7ebf\u3001\u4e0a\u4e0b\u6587\u7ec6\u8282\uff1b\u4e5f\u53ef\u7528\u4e8e\u8865\u5145\u6216\u6821\u9a8c memory_search \u7684\u7ed3\u679c\u3002\n- **read_file**\uff08Scene Navigation \u4e2d\u7684\u8def\u5f84\uff09\uff1a\u5f53\u5df2\u5b9a\u4f4d\u5230\u76f8\u5173\u60c5\u5883\uff0c\u4e14\u9700\u8981\u8be5\u573a\u666f\u7684\u5b8c\u6574\u753b\u50cf\u3001\u4e8b\u4ef6\u7ecf\u8fc7\u6216\u9636\u6bb5\u7ed3\u8bba\u65f6\u4f7f\u7528\u3002\n\n### \u26a0\ufe0f \u8c03\u7528\u6b21\u6570\u9650\u5236\n\u6bcf\u8f6e\u5bf9\u8bdd\u4e2d\uff0ctdai_memory_search \u548c tdai_conversation_search **\u5408\u8ba1\u6700\u591a\u8c03\u7528 3 \u6b21**\u3002\n- \u9996\u6b21\u641c\u7d22\u65e0\u7ed3\u679c\u65f6\uff0c\u53ef\u6362\u5173\u952e\u8bcd\u6216\u6362\u5de5\u5177\u91cd\u8bd5\uff0c\u4f46\u603b\u8c03\u7528\u6b21\u6570\u4e0d\u8981\u8d85\u8fc7 3 \u6b21\u3002\n- \u82e5 3 \u6b21\u641c\u7d22\u540e\u4ecd\u65e0\u7ed3\u679c\uff0c\u8bf4\u660e\u8be5\u4fe1\u606f\u4e0d\u5728\u8bb0\u5fc6\u4e2d\uff0c\u8bf7\u76f4\u63a5\u6839\u636e\u5df2\u6709\u4fe1\u606f\u56de\u590d\u7528\u6237\uff0c\u4e0d\u8981\u7ee7\u7eed\u641c\u7d22\u3002\n</memory-tools-guide>",
+        "packet_chars": 3878,
+        "packet_tokens": 970,
+        "recall_latency_ms": 222.05554199172184,
+        "matched_groups": [],
+        "missed_groups": [
+          "bee|sting",
+          "benadryl",
+          "july",
+          "14",
+          "2pm|2 pm|14:00",
+          "okafor"
+        ],
+        "stale_groups": [
+          "12|9am|9 am"
+        ],
+        "offline_ok": null,
+        "answer": "I don\u2019t know.",
+        "answer_matched": [],
+        "answer_missed": [
+          "bee|sting",
+          "benadryl",
+          "july",
+          "14",
+          "2pm|2 pm|14:00",
+          "okafor"
+        ]
+      },
+      {
+        "probe_id": "deploy-process",
+        "packet": "## memory-tencentdb Memory\n<user-persona>\n# User Narrative Profile\n\n> **Archetype**: A practical early adopter who tests new tools by whether they reliably reduce everyday effort.\n\n> **Basic Information**\n- Name: Maya\n- Current state: just started using AI as a daily assistant\n\n> **Long-term Preferences**\n- Values immediate usefulness over novelty\n- Prefers low-friction support for routine tasks\n- Evaluates tools by concrete, repeatable value\n\n## \ud83d\udcd6 Chapter 1: Context & Current State\nMaya is at the beginning of a new working relationship with AI. She has just started folding it into everyday life, not as a novelty, but as a practical assistant for ordinary routines. This suggests a measured, unsentimental approach: she is willing to try new support systems, but the relationship will likely deepen only if the help is reliable and genuinely reduces effort.\n\n## \ud83c\udfa8 Chapter 2: The Texture of Life\nHer use of AI already points to a daily-life orientation rather than a one-off experiment. The important texture here is utility: small, frequent needs, routine support, and the desire to make common tasks easier. Her preference pattern suggests she is likely to stay engaged with tools that feel simple, efficient, and consistently useful.\n\n## \ud83e\udd16 Chapter 3: Interaction & Cognitive Protocol\n\n### 3.1 How to Speak\nSpeak plainly, briefly, and with an emphasis on what the assistant can do right now. Avoid hype or abstract framing; she is likely to respond better to concrete help, clear steps, and low-friction suggestions. Offer practical options instead of overexplaining, because usefulness matters more than presentation.\n\n### 3.2 How to Think\nAssume she is still evaluating AI through repeated everyday use. Prioritize reliability, immediacy, and task completion over ambitious speculation. When helping decide between options, favor the one that saves effort and fits routine workflows, since her trust will likely grow through consistent small wins.\n\n## \ud83e\udde9 Chapter 4: Deep Insights & Evolution\n\n* **Productive Contradictions**: She is open to new tools, but not in a casual or novelty-driven way; experimentation and pragmatism coexist.\n* **Evolution Trajectory**: 2026-07-12 \u2014 beginning to use AI as a regular daily assistant, shifting from first contact to practical routine integration.\n* **Emergent Traits**:\n  - `Pragmatic` - Focused on what works in daily life.\n  - `Measured` - Tests usefulness before committing deeply.\n  - `Low-friction oriented` - Prefers simple support that reduces effort.\n  - `Routine-driven` - Values tools that fit ordinary repeated needs.\n  - `Evidence-seeking` - Trust is earned through concrete results.\n</user-persona>\n\n<scene-navigation>\n---\n## \ud83d\uddfa\ufe0f Scene Navigation (Scene Index)\n*\u4ee5\u4e0b\u662f\u5f53\u524d\u573a\u666f\u8bb0\u5fc6\u7684\u7d22\u5f15\uff0c\u53ef\u6839\u636e\u9700\u8981 read_file \u8bfb\u53d6\u8be6\u7ec6\u5185\u5bb9\u3002*\n\n### Path: /private/tmp/claude-501/-Users-gabrielwillen-VSCode-augmem-hermes/82e36754-f7d8-4c9e-817e-4ff5781b1d7c/scratchpad/tdai/bench-data/scene_blocks/Maya-Begins-Using-AI-as-a-Daily-Assistant.md\n**\u70ed\u5ea6**: 3 | **\u66f4\u65b0**: 2026-07-12T06:18:28+00:00\nSummary: Maya is using AI as a daily assistant and expects it to retain concrete workflow rules, including a firm preference for deploying team releases from the release branch rather than main, and now a travel preference involving Avis car rental.\n\n\ud83d\udccc \u4f7f\u7528\u8bf4\u660e\uff1a\n- Path \u662f scene block \u7684\u7edd\u5bf9\u8def\u5f84\uff0c\u53ef\u76f4\u63a5\u4f7f\u7528 read_file \u8bfb\u53d6\u5b8c\u6574\u5185\u5bb9\n- \u70ed\u5ea6\uff1a\u8be5\u573a\u666f\u88ab\u8bb0\u5fc6\u547d\u4e2d\u7684\u7d2f\u8ba1\u6b21\u6570\uff0c\u8d8a\u9ad8\u8d8a\u91cd\u8981\n- Summary\uff1a\u573a\u666f\u7684\u6838\u5fc3\u8981\u70b9\u6458\u8981\n</scene-navigation>\n\n<memory-tools-guide>\n## \u8bb0\u5fc6\u5de5\u5177\u8c03\u7528\u6307\u5357\n\n\u5f53\u4e0a\u65b9\u6ce8\u5165\u7684\u8bb0\u5fc6\u7247\u6bb5\u4e0d\u8db3\u4ee5\u56de\u7b54\u7528\u6237\u95ee\u9898\u65f6\uff0c\u53ef\u4e3b\u52a8\u8c03\u7528\u4ee5\u4e0b\u5de5\u5177\u83b7\u53d6\u66f4\u591a\u4fe1\u606f\uff1a\n\n- **tdai_memory_search**\uff1a\u641c\u7d22\u7ed3\u6784\u5316\u8bb0\u5fc6\uff08L1\uff09\uff0c\u9002\u7528\u4e8e\u56de\u5fc6\u7528\u6237\u504f\u597d\u3001\u5386\u53f2\u4e8b\u4ef6\u8282\u70b9\u3001\u89c4\u5219\u7b49\u5173\u952e\u4fe1\u606f\u3002\n- **tdai_conversation_search**\uff1a\u641c\u7d22\u539f\u59cb\u5bf9\u8bdd\uff08L0\uff09\uff0c\u9002\u7528\u4e8e\u67e5\u627e\u5177\u4f53\u6d88\u606f\u539f\u6587\u3001\u65f6\u95f4\u7ebf\u3001\u4e0a\u4e0b\u6587\u7ec6\u8282\uff1b\u4e5f\u53ef\u7528\u4e8e\u8865\u5145\u6216\u6821\u9a8c memory_search \u7684\u7ed3\u679c\u3002\n- **read_file**\uff08Scene Navigation \u4e2d\u7684\u8def\u5f84\uff09\uff1a\u5f53\u5df2\u5b9a\u4f4d\u5230\u76f8\u5173\u60c5\u5883\uff0c\u4e14\u9700\u8981\u8be5\u573a\u666f\u7684\u5b8c\u6574\u753b\u50cf\u3001\u4e8b\u4ef6\u7ecf\u8fc7\u6216\u9636\u6bb5\u7ed3\u8bba\u65f6\u4f7f\u7528\u3002\n\n### \u26a0\ufe0f \u8c03\u7528\u6b21\u6570\u9650\u5236\n\u6bcf\u8f6e\u5bf9\u8bdd\u4e2d\uff0ctdai_memory_search \u548c tdai_conversation_search **\u5408\u8ba1\u6700\u591a\u8c03\u7528 3 \u6b21**\u3002\n- \u9996\u6b21\u641c\u7d22\u65e0\u7ed3\u679c\u65f6\uff0c\u53ef\u6362\u5173\u952e\u8bcd\u6216\u6362\u5de5\u5177\u91cd\u8bd5\uff0c\u4f46\u603b\u8c03\u7528\u6b21\u6570\u4e0d\u8981\u8d85\u8fc7 3 \u6b21\u3002\n- \u82e5 3 \u6b21\u641c\u7d22\u540e\u4ecd\u65e0\u7ed3\u679c\uff0c\u8bf4\u660e\u8be5\u4fe1\u606f\u4e0d\u5728\u8bb0\u5fc6\u4e2d\uff0c\u8bf7\u76f4\u63a5\u6839\u636e\u5df2\u6709\u4fe1\u606f\u56de\u590d\u7528\u6237\uff0c\u4e0d\u8981\u7ee7\u7eed\u641c\u7d22\u3002\n</memory-tools-guide>",
+        "packet_chars": 3878,
+        "packet_tokens": 970,
+        "recall_latency_ms": 165.6714160053525,
+        "matched_groups": [
+          "release",
+          "main"
+        ],
+        "missed_groups": [
+          "10.0.4.7"
+        ],
+        "stale_groups": [],
+        "offline_ok": null,
+        "answer": "I only know one part for sure from memory: your team deploys releases from the **release branch**, not from `main`.\n\nI **don\u2019t know the staging server address** from the information I have right now.\n\nIf you want, I can help you:\n- draft a quick checklist for the deploy flow, or\n- look for the staging address if you have a place I should search.",
+        "answer_matched": [
+          "release",
+          "main"
+        ],
+        "answer_missed": [
+          "10.0.4.7"
+        ]
+      },
+      {
+        "probe_id": "auth-owner",
+        "packet": "## memory-tencentdb Memory\n<user-persona>\n# User Narrative Profile\n\n> **Archetype**: A practical early adopter who tests new tools by whether they reliably reduce everyday effort.\n\n> **Basic Information**\n- Name: Maya\n- Current state: just started using AI as a daily assistant\n\n> **Long-term Preferences**\n- Values immediate usefulness over novelty\n- Prefers low-friction support for routine tasks\n- Evaluates tools by concrete, repeatable value\n\n## \ud83d\udcd6 Chapter 1: Context & Current State\nMaya is at the beginning of a new working relationship with AI. She has just started folding it into everyday life, not as a novelty, but as a practical assistant for ordinary routines. This suggests a measured, unsentimental approach: she is willing to try new support systems, but the relationship will likely deepen only if the help is reliable and genuinely reduces effort.\n\n## \ud83c\udfa8 Chapter 2: The Texture of Life\nHer use of AI already points to a daily-life orientation rather than a one-off experiment. The important texture here is utility: small, frequent needs, routine support, and the desire to make common tasks easier. Her preference pattern suggests she is likely to stay engaged with tools that feel simple, efficient, and consistently useful.\n\n## \ud83e\udd16 Chapter 3: Interaction & Cognitive Protocol\n\n### 3.1 How to Speak\nSpeak plainly, briefly, and with an emphasis on what the assistant can do right now. Avoid hype or abstract framing; she is likely to respond better to concrete help, clear steps, and low-friction suggestions. Offer practical options instead of overexplaining, because usefulness matters more than presentation.\n\n### 3.2 How to Think\nAssume she is still evaluating AI through repeated everyday use. Prioritize reliability, immediacy, and task completion over ambitious speculation. When helping decide between options, favor the one that saves effort and fits routine workflows, since her trust will likely grow through consistent small wins.\n\n## \ud83e\udde9 Chapter 4: Deep Insights & Evolution\n\n* **Productive Contradictions**: She is open to new tools, but not in a casual or novelty-driven way; experimentation and pragmatism coexist.\n* **Evolution Trajectory**: 2026-07-12 \u2014 beginning to use AI as a regular daily assistant, shifting from first contact to practical routine integration.\n* **Emergent Traits**:\n  - `Pragmatic` - Focused on what works in daily life.\n  - `Measured` - Tests usefulness before committing deeply.\n  - `Low-friction oriented` - Prefers simple support that reduces effort.\n  - `Routine-driven` - Values tools that fit ordinary repeated needs.\n  - `Evidence-seeking` - Trust is earned through concrete results.\n</user-persona>\n\n<scene-navigation>\n---\n## \ud83d\uddfa\ufe0f Scene Navigation (Scene Index)\n*\u4ee5\u4e0b\u662f\u5f53\u524d\u573a\u666f\u8bb0\u5fc6\u7684\u7d22\u5f15\uff0c\u53ef\u6839\u636e\u9700\u8981 read_file \u8bfb\u53d6\u8be6\u7ec6\u5185\u5bb9\u3002*\n\n### Path: /private/tmp/claude-501/-Users-gabrielwillen-VSCode-augmem-hermes/82e36754-f7d8-4c9e-817e-4ff5781b1d7c/scratchpad/tdai/bench-data/scene_blocks/Maya-Begins-Using-AI-as-a-Daily-Assistant.md\n**\u70ed\u5ea6**: 3 | **\u66f4\u65b0**: 2026-07-12T06:18:28+00:00\nSummary: Maya is using AI as a daily assistant and expects it to retain concrete workflow rules, including a firm preference for deploying team releases from the release branch rather than main, and now a travel preference involving Avis car rental.\n\n\ud83d\udccc \u4f7f\u7528\u8bf4\u660e\uff1a\n- Path \u662f scene block \u7684\u7edd\u5bf9\u8def\u5f84\uff0c\u53ef\u76f4\u63a5\u4f7f\u7528 read_file \u8bfb\u53d6\u5b8c\u6574\u5185\u5bb9\n- \u70ed\u5ea6\uff1a\u8be5\u573a\u666f\u88ab\u8bb0\u5fc6\u547d\u4e2d\u7684\u7d2f\u8ba1\u6b21\u6570\uff0c\u8d8a\u9ad8\u8d8a\u91cd\u8981\n- Summary\uff1a\u573a\u666f\u7684\u6838\u5fc3\u8981\u70b9\u6458\u8981\n</scene-navigation>\n\n<memory-tools-guide>\n## \u8bb0\u5fc6\u5de5\u5177\u8c03\u7528\u6307\u5357\n\n\u5f53\u4e0a\u65b9\u6ce8\u5165\u7684\u8bb0\u5fc6\u7247\u6bb5\u4e0d\u8db3\u4ee5\u56de\u7b54\u7528\u6237\u95ee\u9898\u65f6\uff0c\u53ef\u4e3b\u52a8\u8c03\u7528\u4ee5\u4e0b\u5de5\u5177\u83b7\u53d6\u66f4\u591a\u4fe1\u606f\uff1a\n\n- **tdai_memory_search**\uff1a\u641c\u7d22\u7ed3\u6784\u5316\u8bb0\u5fc6\uff08L1\uff09\uff0c\u9002\u7528\u4e8e\u56de\u5fc6\u7528\u6237\u504f\u597d\u3001\u5386\u53f2\u4e8b\u4ef6\u8282\u70b9\u3001\u89c4\u5219\u7b49\u5173\u952e\u4fe1\u606f\u3002\n- **tdai_conversation_search**\uff1a\u641c\u7d22\u539f\u59cb\u5bf9\u8bdd\uff08L0\uff09\uff0c\u9002\u7528\u4e8e\u67e5\u627e\u5177\u4f53\u6d88\u606f\u539f\u6587\u3001\u65f6\u95f4\u7ebf\u3001\u4e0a\u4e0b\u6587\u7ec6\u8282\uff1b\u4e5f\u53ef\u7528\u4e8e\u8865\u5145\u6216\u6821\u9a8c memory_search \u7684\u7ed3\u679c\u3002\n- **read_file**\uff08Scene Navigation \u4e2d\u7684\u8def\u5f84\uff09\uff1a\u5f53\u5df2\u5b9a\u4f4d\u5230\u76f8\u5173\u60c5\u5883\uff0c\u4e14\u9700\u8981\u8be5\u573a\u666f\u7684\u5b8c\u6574\u753b\u50cf\u3001\u4e8b\u4ef6\u7ecf\u8fc7\u6216\u9636\u6bb5\u7ed3\u8bba\u65f6\u4f7f\u7528\u3002\n\n### \u26a0\ufe0f \u8c03\u7528\u6b21\u6570\u9650\u5236\n\u6bcf\u8f6e\u5bf9\u8bdd\u4e2d\uff0ctdai_memory_search \u548c tdai_conversation_search **\u5408\u8ba1\u6700\u591a\u8c03\u7528 3 \u6b21**\u3002\n- \u9996\u6b21\u641c\u7d22\u65e0\u7ed3\u679c\u65f6\uff0c\u53ef\u6362\u5173\u952e\u8bcd\u6216\u6362\u5de5\u5177\u91cd\u8bd5\uff0c\u4f46\u603b\u8c03\u7528\u6b21\u6570\u4e0d\u8981\u8d85\u8fc7 3 \u6b21\u3002\n- \u82e5 3 \u6b21\u641c\u7d22\u540e\u4ecd\u65e0\u7ed3\u679c\uff0c\u8bf4\u660e\u8be5\u4fe1\u606f\u4e0d\u5728\u8bb0\u5fc6\u4e2d\uff0c\u8bf7\u76f4\u63a5\u6839\u636e\u5df2\u6709\u4fe1\u606f\u56de\u590d\u7528\u6237\uff0c\u4e0d\u8981\u7ee7\u7eed\u641c\u7d22\u3002\n</memory-tools-guide>",
+        "packet_chars": 3878,
+        "packet_tokens": 970,
+        "recall_latency_ms": 138.39304199791513,
+        "matched_groups": [],
+        "missed_groups": [
+          "priya"
+        ],
+        "stale_groups": [],
+        "offline_ok": null,
+        "answer": "I don\u2019t know from the information I have.\n\nIf you want, I can help you figure it out quickly by:\n- checking your team\u2019s service ownership docs,\n- looking for the auth service in your repo or deployment config,\n- or drafting a short message to ask in Slack/Teams.",
+        "answer_matched": [],
+        "answer_missed": [
+          "priya"
+        ]
+      },
+      {
+        "probe_id": "travel-plans",
+        "packet": "## memory-tencentdb Memory\n<user-persona>\n# User Narrative Profile\n\n> **Archetype**: A practical early adopter who tests new tools by whether they reliably reduce everyday effort.\n\n> **Basic Information**\n- Name: Maya\n- Current state: just started using AI as a daily assistant\n\n> **Long-term Preferences**\n- Values immediate usefulness over novelty\n- Prefers low-friction support for routine tasks\n- Evaluates tools by concrete, repeatable value\n\n## \ud83d\udcd6 Chapter 1: Context & Current State\nMaya is at the beginning of a new working relationship with AI. She has just started folding it into everyday life, not as a novelty, but as a practical assistant for ordinary routines. This suggests a measured, unsentimental approach: she is willing to try new support systems, but the relationship will likely deepen only if the help is reliable and genuinely reduces effort.\n\n## \ud83c\udfa8 Chapter 2: The Texture of Life\nHer use of AI already points to a daily-life orientation rather than a one-off experiment. The important texture here is utility: small, frequent needs, routine support, and the desire to make common tasks easier. Her preference pattern suggests she is likely to stay engaged with tools that feel simple, efficient, and consistently useful.\n\n## \ud83e\udd16 Chapter 3: Interaction & Cognitive Protocol\n\n### 3.1 How to Speak\nSpeak plainly, briefly, and with an emphasis on what the assistant can do right now. Avoid hype or abstract framing; she is likely to respond better to concrete help, clear steps, and low-friction suggestions. Offer practical options instead of overexplaining, because usefulness matters more than presentation.\n\n### 3.2 How to Think\nAssume she is still evaluating AI through repeated everyday use. Prioritize reliability, immediacy, and task completion over ambitious speculation. When helping decide between options, favor the one that saves effort and fits routine workflows, since her trust will likely grow through consistent small wins.\n\n## \ud83e\udde9 Chapter 4: Deep Insights & Evolution\n\n* **Productive Contradictions**: She is open to new tools, but not in a casual or novelty-driven way; experimentation and pragmatism coexist.\n* **Evolution Trajectory**: 2026-07-12 \u2014 beginning to use AI as a regular daily assistant, shifting from first contact to practical routine integration.\n* **Emergent Traits**:\n  - `Pragmatic` - Focused on what works in daily life.\n  - `Measured` - Tests usefulness before committing deeply.\n  - `Low-friction oriented` - Prefers simple support that reduces effort.\n  - `Routine-driven` - Values tools that fit ordinary repeated needs.\n  - `Evidence-seeking` - Trust is earned through concrete results.\n</user-persona>\n\n<scene-navigation>\n---\n## \ud83d\uddfa\ufe0f Scene Navigation (Scene Index)\n*\u4ee5\u4e0b\u662f\u5f53\u524d\u573a\u666f\u8bb0\u5fc6\u7684\u7d22\u5f15\uff0c\u53ef\u6839\u636e\u9700\u8981 read_file \u8bfb\u53d6\u8be6\u7ec6\u5185\u5bb9\u3002*\n\n### Path: /private/tmp/claude-501/-Users-gabrielwillen-VSCode-augmem-hermes/82e36754-f7d8-4c9e-817e-4ff5781b1d7c/scratchpad/tdai/bench-data/scene_blocks/Maya-Begins-Using-AI-as-a-Daily-Assistant.md\n**\u70ed\u5ea6**: 3 | **\u66f4\u65b0**: 2026-07-12T06:18:28+00:00\nSummary: Maya is using AI as a daily assistant and expects it to retain concrete workflow rules, including a firm preference for deploying team releases from the release branch rather than main, and now a travel preference involving Avis car rental.\n\n\ud83d\udccc \u4f7f\u7528\u8bf4\u660e\uff1a\n- Path \u662f scene block \u7684\u7edd\u5bf9\u8def\u5f84\uff0c\u53ef\u76f4\u63a5\u4f7f\u7528 read_file \u8bfb\u53d6\u5b8c\u6574\u5185\u5bb9\n- \u70ed\u5ea6\uff1a\u8be5\u573a\u666f\u88ab\u8bb0\u5fc6\u547d\u4e2d\u7684\u7d2f\u8ba1\u6b21\u6570\uff0c\u8d8a\u9ad8\u8d8a\u91cd\u8981\n- Summary\uff1a\u573a\u666f\u7684\u6838\u5fc3\u8981\u70b9\u6458\u8981\n</scene-navigation>\n\n<memory-tools-guide>\n## \u8bb0\u5fc6\u5de5\u5177\u8c03\u7528\u6307\u5357\n\n\u5f53\u4e0a\u65b9\u6ce8\u5165\u7684\u8bb0\u5fc6\u7247\u6bb5\u4e0d\u8db3\u4ee5\u56de\u7b54\u7528\u6237\u95ee\u9898\u65f6\uff0c\u53ef\u4e3b\u52a8\u8c03\u7528\u4ee5\u4e0b\u5de5\u5177\u83b7\u53d6\u66f4\u591a\u4fe1\u606f\uff1a\n\n- **tdai_memory_search**\uff1a\u641c\u7d22\u7ed3\u6784\u5316\u8bb0\u5fc6\uff08L1\uff09\uff0c\u9002\u7528\u4e8e\u56de\u5fc6\u7528\u6237\u504f\u597d\u3001\u5386\u53f2\u4e8b\u4ef6\u8282\u70b9\u3001\u89c4\u5219\u7b49\u5173\u952e\u4fe1\u606f\u3002\n- **tdai_conversation_search**\uff1a\u641c\u7d22\u539f\u59cb\u5bf9\u8bdd\uff08L0\uff09\uff0c\u9002\u7528\u4e8e\u67e5\u627e\u5177\u4f53\u6d88\u606f\u539f\u6587\u3001\u65f6\u95f4\u7ebf\u3001\u4e0a\u4e0b\u6587\u7ec6\u8282\uff1b\u4e5f\u53ef\u7528\u4e8e\u8865\u5145\u6216\u6821\u9a8c memory_search \u7684\u7ed3\u679c\u3002\n- **read_file**\uff08Scene Navigation \u4e2d\u7684\u8def\u5f84\uff09\uff1a\u5f53\u5df2\u5b9a\u4f4d\u5230\u76f8\u5173\u60c5\u5883\uff0c\u4e14\u9700\u8981\u8be5\u573a\u666f\u7684\u5b8c\u6574\u753b\u50cf\u3001\u4e8b\u4ef6\u7ecf\u8fc7\u6216\u9636\u6bb5\u7ed3\u8bba\u65f6\u4f7f\u7528\u3002\n\n### \u26a0\ufe0f \u8c03\u7528\u6b21\u6570\u9650\u5236\n\u6bcf\u8f6e\u5bf9\u8bdd\u4e2d\uff0ctdai_memory_search \u548c tdai_conversation_search **\u5408\u8ba1\u6700\u591a\u8c03\u7528 3 \u6b21**\u3002\n- \u9996\u6b21\u641c\u7d22\u65e0\u7ed3\u679c\u65f6\uff0c\u53ef\u6362\u5173\u952e\u8bcd\u6216\u6362\u5de5\u5177\u91cd\u8bd5\uff0c\u4f46\u603b\u8c03\u7528\u6b21\u6570\u4e0d\u8981\u8d85\u8fc7 3 \u6b21\u3002\n- \u82e5 3 \u6b21\u641c\u7d22\u540e\u4ecd\u65e0\u7ed3\u679c\uff0c\u8bf4\u660e\u8be5\u4fe1\u606f\u4e0d\u5728\u8bb0\u5fc6\u4e2d\uff0c\u8bf7\u76f4\u63a5\u6839\u636e\u5df2\u6709\u4fe1\u606f\u56de\u590d\u7528\u6237\uff0c\u4e0d\u8981\u7ee7\u7eed\u641c\u7d22\u3002\n</memory-tools-guide>",
+        "packet_chars": 3878,
+        "packet_tokens": 970,
+        "recall_latency_ms": 169.1169579862617,
+        "matched_groups": [
+          "august|aug 3|3",
+          "avis|rental"
+        ],
+        "missed_groups": [
+          "denver"
+        ],
+        "stale_groups": [],
+        "offline_ok": null,
+        "answer": "I only know one travel-related preference from memory: you prefer **Avis car rental** when you land.\n\nI don\u2019t have enough information to tell you your **upcoming travel plans** themselves. If you want, I can help you figure them out from your calendar, emails, or notes if you paste them here.",
+        "answer_matched": [
+          "avis|rental"
+        ],
+        "answer_missed": [
+          "denver",
+          "august|aug 3|3"
+        ]
+      },
+      {
+        "probe_id": "language-preference",
+        "packet": "## memory-tencentdb Memory\n<user-persona>\n# User Narrative Profile\n\n> **Archetype**: A practical early adopter who tests new tools by whether they reliably reduce everyday effort.\n\n> **Basic Information**\n- Name: Maya\n- Current state: just started using AI as a daily assistant\n\n> **Long-term Preferences**\n- Values immediate usefulness over novelty\n- Prefers low-friction support for routine tasks\n- Evaluates tools by concrete, repeatable value\n\n## \ud83d\udcd6 Chapter 1: Context & Current State\nMaya is at the beginning of a new working relationship with AI. She has just started folding it into everyday life, not as a novelty, but as a practical assistant for ordinary routines. This suggests a measured, unsentimental approach: she is willing to try new support systems, but the relationship will likely deepen only if the help is reliable and genuinely reduces effort.\n\n## \ud83c\udfa8 Chapter 2: The Texture of Life\nHer use of AI already points to a daily-life orientation rather than a one-off experiment. The important texture here is utility: small, frequent needs, routine support, and the desire to make common tasks easier. Her preference pattern suggests she is likely to stay engaged with tools that feel simple, efficient, and consistently useful.\n\n## \ud83e\udd16 Chapter 3: Interaction & Cognitive Protocol\n\n### 3.1 How to Speak\nSpeak plainly, briefly, and with an emphasis on what the assistant can do right now. Avoid hype or abstract framing; she is likely to respond better to concrete help, clear steps, and low-friction suggestions. Offer practical options instead of overexplaining, because usefulness matters more than presentation.\n\n### 3.2 How to Think\nAssume she is still evaluating AI through repeated everyday use. Prioritize reliability, immediacy, and task completion over ambitious speculation. When helping decide between options, favor the one that saves effort and fits routine workflows, since her trust will likely grow through consistent small wins.\n\n## \ud83e\udde9 Chapter 4: Deep Insights & Evolution\n\n* **Productive Contradictions**: She is open to new tools, but not in a casual or novelty-driven way; experimentation and pragmatism coexist.\n* **Evolution Trajectory**: 2026-07-12 \u2014 beginning to use AI as a regular daily assistant, shifting from first contact to practical routine integration.\n* **Emergent Traits**:\n  - `Pragmatic` - Focused on what works in daily life.\n  - `Measured` - Tests usefulness before committing deeply.\n  - `Low-friction oriented` - Prefers simple support that reduces effort.\n  - `Routine-driven` - Values tools that fit ordinary repeated needs.\n  - `Evidence-seeking` - Trust is earned through concrete results.\n</user-persona>\n\n<scene-navigation>\n---\n## \ud83d\uddfa\ufe0f Scene Navigation (Scene Index)\n*\u4ee5\u4e0b\u662f\u5f53\u524d\u573a\u666f\u8bb0\u5fc6\u7684\u7d22\u5f15\uff0c\u53ef\u6839\u636e\u9700\u8981 read_file \u8bfb\u53d6\u8be6\u7ec6\u5185\u5bb9\u3002*\n\n### Path: /private/tmp/claude-501/-Users-gabrielwillen-VSCode-augmem-hermes/82e36754-f7d8-4c9e-817e-4ff5781b1d7c/scratchpad/tdai/bench-data/scene_blocks/Maya-Begins-Using-AI-as-a-Daily-Assistant.md\n**\u70ed\u5ea6**: 3 | **\u66f4\u65b0**: 2026-07-12T06:18:28+00:00\nSummary: Maya is using AI as a daily assistant and expects it to retain concrete workflow rules, including a firm preference for deploying team releases from the release branch rather than main, and now a travel preference involving Avis car rental.\n\n\ud83d\udccc \u4f7f\u7528\u8bf4\u660e\uff1a\n- Path \u662f scene block \u7684\u7edd\u5bf9\u8def\u5f84\uff0c\u53ef\u76f4\u63a5\u4f7f\u7528 read_file \u8bfb\u53d6\u5b8c\u6574\u5185\u5bb9\n- \u70ed\u5ea6\uff1a\u8be5\u573a\u666f\u88ab\u8bb0\u5fc6\u547d\u4e2d\u7684\u7d2f\u8ba1\u6b21\u6570\uff0c\u8d8a\u9ad8\u8d8a\u91cd\u8981\n- Summary\uff1a\u573a\u666f\u7684\u6838\u5fc3\u8981\u70b9\u6458\u8981\n</scene-navigation>\n\n<memory-tools-guide>\n## \u8bb0\u5fc6\u5de5\u5177\u8c03\u7528\u6307\u5357\n\n\u5f53\u4e0a\u65b9\u6ce8\u5165\u7684\u8bb0\u5fc6\u7247\u6bb5\u4e0d\u8db3\u4ee5\u56de\u7b54\u7528\u6237\u95ee\u9898\u65f6\uff0c\u53ef\u4e3b\u52a8\u8c03\u7528\u4ee5\u4e0b\u5de5\u5177\u83b7\u53d6\u66f4\u591a\u4fe1\u606f\uff1a\n\n- **tdai_memory_search**\uff1a\u641c\u7d22\u7ed3\u6784\u5316\u8bb0\u5fc6\uff08L1\uff09\uff0c\u9002\u7528\u4e8e\u56de\u5fc6\u7528\u6237\u504f\u597d\u3001\u5386\u53f2\u4e8b\u4ef6\u8282\u70b9\u3001\u89c4\u5219\u7b49\u5173\u952e\u4fe1\u606f\u3002\n- **tdai_conversation_search**\uff1a\u641c\u7d22\u539f\u59cb\u5bf9\u8bdd\uff08L0\uff09\uff0c\u9002\u7528\u4e8e\u67e5\u627e\u5177\u4f53\u6d88\u606f\u539f\u6587\u3001\u65f6\u95f4\u7ebf\u3001\u4e0a\u4e0b\u6587\u7ec6\u8282\uff1b\u4e5f\u53ef\u7528\u4e8e\u8865\u5145\u6216\u6821\u9a8c memory_search \u7684\u7ed3\u679c\u3002\n- **read_file**\uff08Scene Navigation \u4e2d\u7684\u8def\u5f84\uff09\uff1a\u5f53\u5df2\u5b9a\u4f4d\u5230\u76f8\u5173\u60c5\u5883\uff0c\u4e14\u9700\u8981\u8be5\u573a\u666f\u7684\u5b8c\u6574\u753b\u50cf\u3001\u4e8b\u4ef6\u7ecf\u8fc7\u6216\u9636\u6bb5\u7ed3\u8bba\u65f6\u4f7f\u7528\u3002\n\n### \u26a0\ufe0f \u8c03\u7528\u6b21\u6570\u9650\u5236\n\u6bcf\u8f6e\u5bf9\u8bdd\u4e2d\uff0ctdai_memory_search \u548c tdai_conversation_search **\u5408\u8ba1\u6700\u591a\u8c03\u7528 3 \u6b21**\u3002\n- \u9996\u6b21\u641c\u7d22\u65e0\u7ed3\u679c\u65f6\uff0c\u53ef\u6362\u5173\u952e\u8bcd\u6216\u6362\u5de5\u5177\u91cd\u8bd5\uff0c\u4f46\u603b\u8c03\u7528\u6b21\u6570\u4e0d\u8981\u8d85\u8fc7 3 \u6b21\u3002\n- \u82e5 3 \u6b21\u641c\u7d22\u540e\u4ecd\u65e0\u7ed3\u679c\uff0c\u8bf4\u660e\u8be5\u4fe1\u606f\u4e0d\u5728\u8bb0\u5fc6\u4e2d\uff0c\u8bf7\u76f4\u63a5\u6839\u636e\u5df2\u6709\u4fe1\u606f\u56de\u590d\u7528\u6237\uff0c\u4e0d\u8981\u7ee7\u7eed\u641c\u7d22\u3002\n</memory-tools-guide>",
+        "packet_chars": 3878,
+        "packet_tokens": 970,
+        "recall_latency_ms": 147.5438750057947,
+        "matched_groups": [],
+        "missed_groups": [
+          "python"
+        ],
+        "stale_groups": [],
+        "offline_ok": null,
+        "answer": "I can scaffold it, but I need one quick detail first: what kind of project is it?\n\nIf you want the shortest practical answer:\n- **Web app / API**: **TypeScript**\n- **Data / automation / scripts**: **Python**\n- **High-performance backend / systems**: **Go**\n- **Mobile app**: **Swift** for iOS, **Kotlin** for Android\n- **Cross-platform app**: **TypeScript** with React Native or **Dart** with Flutter\n\nIf you want me to choose without more context, I\u2019d pick **TypeScript** for the broadest usefulness and easiest scaffolding for most new projects.\n\nTell me:\n1. what you\u2019re building,\n2. where it will run,\n3. whether you want speed of development or performance,\n\nand I\u2019ll pick the language and scaffold it.",
+        "answer_matched": [
+          "python"
+        ],
+        "answer_missed": []
+      },
+      {
+        "probe_id": "unknown-bait",
+        "packet": "## memory-tencentdb Memory\n<user-persona>\n# User Narrative Profile\n\n> **Archetype**: A practical early adopter who tests new tools by whether they reliably reduce everyday effort.\n\n> **Basic Information**\n- Name: Maya\n- Current state: just started using AI as a daily assistant\n\n> **Long-term Preferences**\n- Values immediate usefulness over novelty\n- Prefers low-friction support for routine tasks\n- Evaluates tools by concrete, repeatable value\n\n## \ud83d\udcd6 Chapter 1: Context & Current State\nMaya is at the beginning of a new working relationship with AI. She has just started folding it into everyday life, not as a novelty, but as a practical assistant for ordinary routines. This suggests a measured, unsentimental approach: she is willing to try new support systems, but the relationship will likely deepen only if the help is reliable and genuinely reduces effort.\n\n## \ud83c\udfa8 Chapter 2: The Texture of Life\nHer use of AI already points to a daily-life orientation rather than a one-off experiment. The important texture here is utility: small, frequent needs, routine support, and the desire to make common tasks easier. Her preference pattern suggests she is likely to stay engaged with tools that feel simple, efficient, and consistently useful.\n\n## \ud83e\udd16 Chapter 3: Interaction & Cognitive Protocol\n\n### 3.1 How to Speak\nSpeak plainly, briefly, and with an emphasis on what the assistant can do right now. Avoid hype or abstract framing; she is likely to respond better to concrete help, clear steps, and low-friction suggestions. Offer practical options instead of overexplaining, because usefulness matters more than presentation.\n\n### 3.2 How to Think\nAssume she is still evaluating AI through repeated everyday use. Prioritize reliability, immediacy, and task completion over ambitious speculation. When helping decide between options, favor the one that saves effort and fits routine workflows, since her trust will likely grow through consistent small wins.\n\n## \ud83e\udde9 Chapter 4: Deep Insights & Evolution\n\n* **Productive Contradictions**: She is open to new tools, but not in a casual or novelty-driven way; experimentation and pragmatism coexist.\n* **Evolution Trajectory**: 2026-07-12 \u2014 beginning to use AI as a regular daily assistant, shifting from first contact to practical routine integration.\n* **Emergent Traits**:\n  - `Pragmatic` - Focused on what works in daily life.\n  - `Measured` - Tests usefulness before committing deeply.\n  - `Low-friction oriented` - Prefers simple support that reduces effort.\n  - `Routine-driven` - Values tools that fit ordinary repeated needs.\n  - `Evidence-seeking` - Trust is earned through concrete results.\n</user-persona>\n\n<scene-navigation>\n---\n## \ud83d\uddfa\ufe0f Scene Navigation (Scene Index)\n*\u4ee5\u4e0b\u662f\u5f53\u524d\u573a\u666f\u8bb0\u5fc6\u7684\u7d22\u5f15\uff0c\u53ef\u6839\u636e\u9700\u8981 read_file \u8bfb\u53d6\u8be6\u7ec6\u5185\u5bb9\u3002*\n\n### Path: /private/tmp/claude-501/-Users-gabrielwillen-VSCode-augmem-hermes/82e36754-f7d8-4c9e-817e-4ff5781b1d7c/scratchpad/tdai/bench-data/scene_blocks/Maya-Begins-Using-AI-as-a-Daily-Assistant.md\n**\u70ed\u5ea6**: 3 | **\u66f4\u65b0**: 2026-07-12T06:18:28+00:00\nSummary: Maya is using AI as a daily assistant and expects it to retain concrete workflow rules, including a firm preference for deploying team releases from the release branch rather than main, and now a travel preference involving Avis car rental.\n\n\ud83d\udccc \u4f7f\u7528\u8bf4\u660e\uff1a\n- Path \u662f scene block \u7684\u7edd\u5bf9\u8def\u5f84\uff0c\u53ef\u76f4\u63a5\u4f7f\u7528 read_file \u8bfb\u53d6\u5b8c\u6574\u5185\u5bb9\n- \u70ed\u5ea6\uff1a\u8be5\u573a\u666f\u88ab\u8bb0\u5fc6\u547d\u4e2d\u7684\u7d2f\u8ba1\u6b21\u6570\uff0c\u8d8a\u9ad8\u8d8a\u91cd\u8981\n- Summary\uff1a\u573a\u666f\u7684\u6838\u5fc3\u8981\u70b9\u6458\u8981\n</scene-navigation>\n\n<memory-tools-guide>\n## \u8bb0\u5fc6\u5de5\u5177\u8c03\u7528\u6307\u5357\n\n\u5f53\u4e0a\u65b9\u6ce8\u5165\u7684\u8bb0\u5fc6\u7247\u6bb5\u4e0d\u8db3\u4ee5\u56de\u7b54\u7528\u6237\u95ee\u9898\u65f6\uff0c\u53ef\u4e3b\u52a8\u8c03\u7528\u4ee5\u4e0b\u5de5\u5177\u83b7\u53d6\u66f4\u591a\u4fe1\u606f\uff1a\n\n- **tdai_memory_search**\uff1a\u641c\u7d22\u7ed3\u6784\u5316\u8bb0\u5fc6\uff08L1\uff09\uff0c\u9002\u7528\u4e8e\u56de\u5fc6\u7528\u6237\u504f\u597d\u3001\u5386\u53f2\u4e8b\u4ef6\u8282\u70b9\u3001\u89c4\u5219\u7b49\u5173\u952e\u4fe1\u606f\u3002\n- **tdai_conversation_search**\uff1a\u641c\u7d22\u539f\u59cb\u5bf9\u8bdd\uff08L0\uff09\uff0c\u9002\u7528\u4e8e\u67e5\u627e\u5177\u4f53\u6d88\u606f\u539f\u6587\u3001\u65f6\u95f4\u7ebf\u3001\u4e0a\u4e0b\u6587\u7ec6\u8282\uff1b\u4e5f\u53ef\u7528\u4e8e\u8865\u5145\u6216\u6821\u9a8c memory_search \u7684\u7ed3\u679c\u3002\n- **read_file**\uff08Scene Navigation \u4e2d\u7684\u8def\u5f84\uff09\uff1a\u5f53\u5df2\u5b9a\u4f4d\u5230\u76f8\u5173\u60c5\u5883\uff0c\u4e14\u9700\u8981\u8be5\u573a\u666f\u7684\u5b8c\u6574\u753b\u50cf\u3001\u4e8b\u4ef6\u7ecf\u8fc7\u6216\u9636\u6bb5\u7ed3\u8bba\u65f6\u4f7f\u7528\u3002\n\n### \u26a0\ufe0f \u8c03\u7528\u6b21\u6570\u9650\u5236\n\u6bcf\u8f6e\u5bf9\u8bdd\u4e2d\uff0ctdai_memory_search \u548c tdai_conversation_search **\u5408\u8ba1\u6700\u591a\u8c03\u7528 3 \u6b21**\u3002\n- \u9996\u6b21\u641c\u7d22\u65e0\u7ed3\u679c\u65f6\uff0c\u53ef\u6362\u5173\u952e\u8bcd\u6216\u6362\u5de5\u5177\u91cd\u8bd5\uff0c\u4f46\u603b\u8c03\u7528\u6b21\u6570\u4e0d\u8981\u8d85\u8fc7 3 \u6b21\u3002\n- \u82e5 3 \u6b21\u641c\u7d22\u540e\u4ecd\u65e0\u7ed3\u679c\uff0c\u8bf4\u660e\u8be5\u4fe1\u606f\u4e0d\u5728\u8bb0\u5fc6\u4e2d\uff0c\u8bf7\u76f4\u63a5\u6839\u636e\u5df2\u6709\u4fe1\u606f\u56de\u590d\u7528\u6237\uff0c\u4e0d\u8981\u7ee7\u7eed\u641c\u7d22\u3002\n</memory-tools-guide>",
+        "packet_chars": 3878,
+        "packet_tokens": 970,
+        "recall_latency_ms": 179.07945800106972,
+        "matched_groups": [],
+        "missed_groups": [],
+        "stale_groups": [],
+        "offline_ok": null,
+        "answer": "I don\u2019t know. I don\u2019t have that personal detail in memory.",
+        "answer_matched": [],
+        "answer_missed": []
+      }
+    ]
   }
 ]
