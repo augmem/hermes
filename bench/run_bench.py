@@ -72,11 +72,11 @@ def markdown_report(results: list[ProviderResult], judgments: dict | None) -> st
                "Identical scripted transcript per provider; full provider "
                "shutdown between sessions (cold-start recall only).")
   lines.append("")
-  lines.append("| Provider | Packet recall | Stale leaks | Median packet tokens | Median recall ms | Net calls (ingest/recall) | Offline recall | Model-visible tools |")
-  lines.append("| --- | --- | --- | ---: | ---: | ---: | --- | ---: |")
+  lines.append("| Provider | Packet recall | Stale leaks | Median packet tokens | Standing overhead tok/turn | Effective tok/turn | Median recall ms | Net calls (ingest/recall) | Offline recall | Model-visible tools |")
+  lines.append("| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: |")
   for r in results:
     if not r.ok:
-      lines.append(f"| {r.provider} | FAILED: {r.error} | | | | | | |")
+      lines.append(f"| {r.provider} | FAILED: {r.error} | | | | | | | | |")
       continue
     scored = [p for p in r.probes if not _probe(p.probe_id).get("expect_unknown")]
     total = sum(len(p.matched_groups) + len(p.missed_groups) for p in scored)
@@ -85,9 +85,12 @@ def markdown_report(results: list[ProviderResult], judgments: dict | None) -> st
     tokens = sorted(p.packet_tokens for p in r.probes)
     lat = sorted(p.recall_latency_ms for p in r.probes)
     offline = sum(1 for p in r.probes if p.offline_ok)
+    overhead = harness.est_tokens(" " * (r.tool_schema_chars + r.system_prompt_chars))
+    median_tokens = tokens[len(tokens) // 2]
     lines.append(
       f"| {r.provider} | {hit}/{total} facts | {stale} | "
-      f"{tokens[len(tokens) // 2]} | {lat[len(lat) // 2]:.0f} | "
+      f"{median_tokens} | {overhead} | {median_tokens + overhead} | "
+      f"{lat[len(lat) // 2]:.0f} | "
       f"{r.ingest_network_connections}/{r.recall_network_connections} | "
       f"{offline}/{len(r.probes)} probes | {r.tool_schema_count} |")
   if judgments:

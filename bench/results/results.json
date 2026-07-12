@@ -115,7 +115,9 @@
         "answer_matched": [],
         "answer_missed": []
       }
-    ]
+    ],
+    "tool_schema_chars": 0,
+    "standing_overhead_tokens": 0
   },
   {
     "provider": "holographic",
@@ -125,7 +127,7 @@
     "ingest_network_connections": 0,
     "recall_network_connections": 0,
     "tool_schema_count": 2,
-    "system_prompt_chars": 237,
+    "system_prompt_chars": 291,
     "probes": [
       {
         "probe_id": "vet-supersession",
@@ -230,7 +232,9 @@
         "answer_matched": [],
         "answer_missed": []
       }
-    ]
+    ],
+    "tool_schema_chars": 2293,
+    "standing_overhead_tokens": 646
   },
   {
     "provider": "holographic-tools",
@@ -240,7 +244,7 @@
     "ingest_network_connections": 0,
     "recall_network_connections": 0,
     "tool_schema_count": 2,
-    "system_prompt_chars": 237,
+    "system_prompt_chars": 291,
     "probes": [
       {
         "probe_id": "vet-supersession",
@@ -345,7 +349,9 @@
         "answer_matched": [],
         "answer_missed": []
       }
-    ]
+    ],
+    "tool_schema_chars": 2293,
+    "standing_overhead_tokens": 646
   },
   {
     "provider": "mem0",
@@ -355,7 +361,7 @@
     "ingest_network_connections": 9,
     "recall_network_connections": 1,
     "tool_schema_count": 3,
-    "system_prompt_chars": 137,
+    "system_prompt_chars": 138,
     "probes": [
       {
         "probe_id": "vet-supersession",
@@ -463,6 +469,8 @@
         "answer_matched": [],
         "answer_missed": []
       }
-    ]
+    ],
+    "tool_schema_chars": 1068,
+    "standing_overhead_tokens": 302
   }
 ]

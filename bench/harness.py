@@ -102,6 +102,7 @@ class ProviderResult:
   ingest_network_connections: int = 0
   recall_network_connections: int = 0
   tool_schema_count: int = 0
+  tool_schema_chars: int = 0
   system_prompt_chars: int = 0
   probes: list[ProbeResult] = field(default_factory=list)
 
@@ -114,7 +115,9 @@ class ProviderResult:
       "ingest_network_connections": self.ingest_network_connections,
       "recall_network_connections": self.recall_network_connections,
       "tool_schema_count": self.tool_schema_count,
+      "tool_schema_chars": self.tool_schema_chars,
       "system_prompt_chars": self.system_prompt_chars,
+      "standing_overhead_tokens": est_tokens(" " * (self.tool_schema_chars + self.system_prompt_chars)),
       "probes": [vars(p) for p in self.probes],
     }
 
@@ -202,7 +205,9 @@ def run_provider(
     with NetworkMeter() as recall_net:
       provider = factory()
       _init(provider, "bench-probe-session", home)
-      result.tool_schema_count = len(provider.get_tool_schemas() or [])
+      schemas = provider.get_tool_schemas() or []
+      result.tool_schema_count = len(schemas)
+      result.tool_schema_chars = len(json.dumps(schemas)) if schemas else 0
       result.system_prompt_chars = len(provider.system_prompt_block() or "")
 
       for probe in scenario.PROBES:

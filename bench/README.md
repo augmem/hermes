@@ -12,17 +12,22 @@ Scenario: 4 sessions, 20 turns, 6 cold-start probes (including one
 correction/supersession test and one hallucination-bait probe that was never
 answered in the transcript).
 
-| Provider | Packet recall | Stale leaks | Median packet tokens | Median recall ms | Net connections (ingest/recall) | Offline recall | Model-visible tools |
-| --- | --- | --- | ---: | ---: | ---: | --- | ---: |
-| **cortext** | **8/14 facts** | 1 | **97** | **16** | **0/0** | **6/6 probes** | **0** |
-| mem0 (60.5K★, most popular) | 8/14 facts | 1 | 122 | 505 | 9/1 | 0/6 probes | 3 |
-| holographic (built-in default) | 0/14 facts | 0 | 0 | 0 | 0/0 | 0/6 probes | 2 |
-| holographic-tools (steelman) | 0/14 facts | 0 | 0 | 0 | 0/0 | 0/6 probes | 2 |
+| Provider | Packet recall | Stale leaks | Packet tokens (median) | Standing overhead tok/turn | Effective tok/turn | Median recall ms | Net connections (ingest/recall) | Offline recall | Model-visible tools |
+| --- | --- | --- | ---: | ---: | ---: | ---: | ---: | --- | ---: |
+| **cortext** | **8/14 facts** | 1 | **97** | **0** | **97** | **16** | **0/0** | **6/6 probes** | **0** |
+| mem0 (60.5K★, most popular) | 8/14 facts | 1 | 122 | 302 | 424 | 505 | 9/1 | 0/6 probes | 3 |
+| holographic (built-in default) | 0/14 facts | 0 | 0 | 646 | 646 | 0 | 0/0 | 0/6 probes | 2 |
+| holographic-tools (steelman) | 0/14 facts | 0 | 0 | 646 | 646 | 0 | 0/0 | 0/6 probes | 2 |
 
-Read: Cortext ties the most popular provider on recall quality while being
-~30× faster at recall, fully offline, invisible to the model, and never
-touching the network. Both leaked one superseded fact fragment on the
-correction probe.
+**Standing overhead** is what the provider injects into *every* model call
+regardless of recall: its tool JSON schemas plus its branded system-prompt
+block (measured live, estimated at 4 chars/token). Cortext exposes no tools
+and no system-prompt block, so its per-turn cost is the packet alone: 97
+tokens effective versus Mem0's 424 — **4.4× cheaper per turn at equal packet
+recall** — while recalling ~30× faster, fully offline, and never touching
+the network. Both leaked one superseded fact fragment on the correction
+probe. Tool-call *round trips* (a model invoking `mem0_search` etc. and
+re-prompting) are additional and not counted here.
 
 ## Method
 
