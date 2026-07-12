@@ -114,7 +114,8 @@ class CortextMemoryProvider(MemoryProvider):
     if not self._enabled("seam_pre_llm") or not self._engine or not query.strip(): return ""
     if self._cache[0] == query: return self._cache[1]
     try:
-      packet = self._process_text(query, self._source("agent", "prefetch"), Retention.EPHEMERAL); memories = packet.get("retrieved_memory") or []
+      with self._lock: packet = self._process_text(query, self._source("agent", "prefetch"), Retention.EPHEMERAL)
+      memories = packet.get("retrieved_memory") or []
       block = _format([item for item in memories if isinstance(item, dict)], int(self._config.get("top_k", 6))); self._cache = (query, block); return block
     except Exception as exc: logger.warning("Cortext prefetch failed: %s", exc); return ""
 
