@@ -1,0 +1,56 @@
+{
+  "schema": 1,
+  "cortext_version": "1.2.0",
+  "generated_by": "tools/generate_manifest.py",
+  "artifacts": [
+    {
+      "target": "darwin-arm64",
+      "filename": "darwin-arm64/libcortext.dylib",
+      "sha256": "a9f299bdedb6f5d7c8769278d773248687f74210eb6ac7552766d7727e5abdff"
+    },
+    {
+      "target": "darwin-x64",
+      "filename": "darwin-x64/libcortext.dylib",
+      "sha256": "25645b988b67a73377f268a730a908218a6239b295012727a6f0850e8b25714f"
+    },
+    {
+      "target": "linux-x64",
+      "filename": "linux-x64/libcortext.so",
+      "sha256": "2c51493dd344a8568bc036513d6429e1ab9e95126687cd26b58b74b34a399b0b"
+    },
+    {
+      "target": "linux-arm64",
+      "filename": "linux-arm64/libcortext.so",
+      "sha256": "856a07293c75bda6de8e5f7a4d20dd6611dffaa9057bf999c13adb9aef373bf7"
+    },
+    {
+      "target": "windows-x64",
+      "filename": "windows-x64/cortext.dll",
+      "sha256": "481ec1a26b0705ad3118d7be491e7312ca2dea97d32f8dbf592fc730687ce340"
+    }
+  ],
+  "assets": [
+    {
+      "filename": "models/AIST-87M-GGUF/AIST-87M_q8_0.gguf",
+      "sha256": "bf4c49954eccc65183f1a97e44606e86c7ee5a4fea500457124b687a3ec97898",
+      "chunks": [
+        {
+          "filename": "models/AIST-87M-GGUF/chunks/AIST-87M_q8_0.gguf.part-000",
+          "sha256": "7f23effe470c0dbaf425457089877f060b7dcf0c5e7aa2be1d5422c5e3584a99"
+        },
+        {
+          "filename": "models/AIST-87M-GGUF/chunks/AIST-87M_q8_0.gguf.part-001",
+          "sha256": "bcd66bfc6a376a86997a3ac801456c7441aca2f964876d594d5e44c515cde759"
+        },
+        {
+          "filename": "models/AIST-87M-GGUF/chunks/AIST-87M_q8_0.gguf.part-002",
+          "sha256": "e91b751509f1a1901cb3b9922233e6a4aaf241b224ce522f5de709c7d01a4124"
+        }
+      ]
+    },
+    {
+      "filename": "models/mdbr-leaf-ir/vocab.txt",
+      "sha256": "07eced375cec144d27c900241f3e339478dec958f92fddbc551f295c992038a3"
+    }
+  ]
+}

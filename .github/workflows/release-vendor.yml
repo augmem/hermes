@@ -1,0 +1,75 @@
+name: Build and verify Cortext vendor artifacts
+
+on:
+  workflow_dispatch:
+  push:
+    tags: ["v*"]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - target: darwin-arm64
+            zig_target: aarch64-macos
+            runner: macos-14
+          - target: darwin-x64
+            zig_target: x86_64-macos
+            runner: macos-14
+          - target: linux-x64
+            zig_target: x86_64-linux-gnu.2.17
+            runner: ubuntu-latest
+          - target: linux-arm64
+            zig_target: aarch64-linux-gnu.2.17
+            runner: ubuntu-latest
+          - target: windows-x64
+            zig_target: x86_64-windows-gnu
+            runner: windows-latest
+    runs-on: ${{ matrix.runner }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: augmem/cortext
+          ref: v1.2.0
+          path: cortext
+      - uses: mlugg/setup-zig@v2
+        with:
+          version: 0.15.2
+      - name: Build shared C API library
+        working-directory: cortext
+        shell: bash
+        run: zig build --prefix ../out -Dtarget=${{ matrix.zig_target }} -Dshared=true -Dcli=false -Doptimize=ReleaseFast -Dfetch-aist-model=false
+      - name: Collect artifact
+        shell: bash
+        run: |
+          mkdir -p vendor/${{ matrix.target }}
+          find out -type f \( -name 'libcortext.dylib' -o -name 'libcortext.so' -o -name 'cortext.dll' \) -exec cp {} vendor/${{ matrix.target }}/ \;
+          test -s vendor/${{ matrix.target }}/*
+      - name: Fetch release model assets (CI only)
+        working-directory: cortext
+        shell: bash
+        run: python3 scripts/download_aist_model.py --output-dir models --quant q8_0
+      - name: Collect model assets
+        shell: bash
+        run: |
+          mkdir -p vendor/models/AIST-87M-GGUF vendor/models/mdbr-leaf-ir
+          mkdir -p vendor/models/AIST-87M-GGUF/chunks
+          split -b 48m -d -a 3 cortext/models/AIST-87M-GGUF/AIST-87M_q8_0.gguf vendor/models/AIST-87M-GGUF/chunks/AIST-87M_q8_0.gguf.part-
+          cp cortext/models/mdbr-leaf-ir/vocab.txt vendor/models/mdbr-leaf-ir/
+      - uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.target }}
+          path: vendor
+
+  verify-manifest:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/download-artifact@v4
+        with:
+          path: vendor
+          merge-multiple: true
+      - run: python tools/generate_manifest.py --targets darwin-arm64 darwin-x64 linux-x64 linux-arm64 windows-x64 && python -m unittest discover -s tests -v
