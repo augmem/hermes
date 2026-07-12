@@ -1,0 +1,121 @@
+[
+  {
+    "provider": "cortext-natural",
+    "ok": true,
+    "error": "",
+    "ingest_seconds": 1.71,
+    "ingest_network_connections": 0,
+    "recall_network_connections": 0,
+    "tool_schema_count": 0,
+    "tool_schema_chars": 0,
+    "system_prompt_chars": 0,
+    "standing_overhead_tokens": 0,
+    "probes": [
+      {
+        "probe_id": "vet-supersession",
+        "packet": "- For new projects I prefer Python. I always use Python unless the team forces something else.\nFor new projects I prefer Python. I always use Python unless the team forces something else.\n- Hi, I'm Maya. I just started using you as my daily assistant.\nHi, I'm Maya. I just started using you as my daily assistant.\n- My dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\nMy dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\nOur staging server is at 10.0.4.7, in case I ask you about deploys later.\n- What's a good lunch spot near downtown?\nWhat's a good lunch spot near downtown?\n- I work at Meridian Robotics as a platform engineer.\nI work at Meridian Robotics as a platform engineer.",
+        "packet_chars": 831,
+        "packet_tokens": 208,
+        "recall_latency_ms": 7.857415999751538,
+        "matched_groups": [
+          "bee|sting",
+          "benadryl"
+        ],
+        "missed_groups": [
+          "july",
+          "14",
+          "2pm|2 pm|14:00",
+          "okafor"
+        ],
+        "stale_groups": [],
+        "offline_ok": true,
+        "answer": "",
+        "answer_matched": [],
+        "answer_missed": []
+      },
+      {
+        "probe_id": "deploy-process",
+        "packet": "- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\nOur staging server is at 10.0.4.7, in case I ask you about deploys later.\n- I work at Meridian Robotics as a platform engineer.\nI work at Meridian Robotics as a platform engineer.\n- Hi, I'm Maya. I just started using you as my daily assistant.\nHi, I'm Maya. I just started using you as my daily assistant.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\nFor new projects I prefer Python. I always use Python unless the team forces something else.\n- My dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\nMy dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\n- What's a good lunch spot near downtown?\nWhat's a good lunch spot near downtown?",
+        "packet_chars": 831,
+        "packet_tokens": 208,
+        "recall_latency_ms": 8.207416976802051,
+        "matched_groups": [
+          "10.0.4.7"
+        ],
+        "missed_groups": [
+          "release",
+          "main"
+        ],
+        "stale_groups": [],
+        "offline_ok": true,
+        "answer": "",
+        "answer_matched": [],
+        "answer_missed": []
+      },
+      {
+        "probe_id": "auth-owner",
+        "packet": "- Hi, I'm Maya. I just started using you as my daily assistant.\nHi, I'm Maya. I just started using you as my daily assistant.\n- I work at Meridian Robotics as a platform engineer.\nI work at Meridian Robotics as a platform engineer.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\nFor new projects I prefer Python. I always use Python unless the team forces something else.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\nOur staging server is at 10.0.4.7, in case I ask you about deploys later.\n- What's a good lunch spot near downtown?\nWhat's a good lunch spot near downtown?\n- My dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\nMy dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.",
+        "packet_chars": 831,
+        "packet_tokens": 208,
+        "recall_latency_ms": 6.280750007135794,
+        "matched_groups": [],
+        "missed_groups": [
+          "priya"
+        ],
+        "stale_groups": [],
+        "offline_ok": true,
+        "answer": "",
+        "answer_matched": [],
+        "answer_missed": []
+      },
+      {
+        "probe_id": "travel-plans",
+        "packet": "- For new projects I prefer Python. I always use Python unless the team forces something else.\nFor new projects I prefer Python. I always use Python unless the team forces something else.\n- Hi, I'm Maya. I just started using you as my daily assistant.\nHi, I'm Maya. I just started using you as my daily assistant.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\nOur staging server is at 10.0.4.7, in case I ask you about deploys later.\n- What's a good lunch spot near downtown?\nWhat's a good lunch spot near downtown?\n- My dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\nMy dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\n- I work at Meridian Robotics as a platform engineer.\nI work at Meridian Robotics as a platform engineer.",
+        "packet_chars": 831,
+        "packet_tokens": 208,
+        "recall_latency_ms": 6.824875017628074,
+        "matched_groups": [],
+        "missed_groups": [
+          "denver",
+          "august|aug 3|3",
+          "avis|rental"
+        ],
+        "stale_groups": [],
+        "offline_ok": true,
+        "answer": "",
+        "answer_matched": [],
+        "answer_missed": []
+      },
+      {
+        "probe_id": "language-preference",
+        "packet": "- For new projects I prefer Python. I always use Python unless the team forces something else.\nFor new projects I prefer Python. I always use Python unless the team forces something else.\n- Hi, I'm Maya. I just started using you as my daily assistant.\nHi, I'm Maya. I just started using you as my daily assistant.\n- I work at Meridian Robotics as a platform engineer.\nI work at Meridian Robotics as a platform engineer.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\nOur staging server is at 10.0.4.7, in case I ask you about deploys later.\n- What's a good lunch spot near downtown?\nWhat's a good lunch spot near downtown?\n- My dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\nMy dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.",
+        "packet_chars": 831,
+        "packet_tokens": 208,
+        "recall_latency_ms": 8.35216700215824,
+        "matched_groups": [
+          "python"
+        ],
+        "missed_groups": [],
+        "stale_groups": [],
+        "offline_ok": true,
+        "answer": "",
+        "answer_matched": [],
+        "answer_missed": []
+      },
+      {
+        "probe_id": "unknown-bait",
+        "packet": "- For new projects I prefer Python. I always use Python unless the team forces something else.\nFor new projects I prefer Python. I always use Python unless the team forces something else.\n- Hi, I'm Maya. I just started using you as my daily assistant.\nHi, I'm Maya. I just started using you as my daily assistant.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\nOur staging server is at 10.0.4.7, in case I ask you about deploys later.\n- What's a good lunch spot near downtown?\nWhat's a good lunch spot near downtown?\n- My dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\nMy dog Bailey is allergic to bee stings and needs Benadryl within 10 minutes of a sting.\n- I work at Meridian Robotics as a platform engineer.\nI work at Meridian Robotics as a platform engineer.",
+        "packet_chars": 831,
+        "packet_tokens": 208,
+        "recall_latency_ms": 7.2265000198967755,
+        "matched_groups": [],
+        "missed_groups": [],
+        "stale_groups": [],
+        "offline_ok": true,
+        "answer": "",
+        "answer_matched": [],
+        "answer_missed": []
+      }
+    ]
+  }
+]

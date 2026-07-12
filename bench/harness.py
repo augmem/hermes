@@ -267,6 +267,21 @@ def make_cortext() -> Any:
   return CortextMemoryProvider()
 
 
+def make_cortext_natural() -> Any:
+  """Experiment: conversational ingest under NATURAL retention (episode
+  algorithms decide boundaries and writes) instead of per-turn DURABLE."""
+  from cortext_native import Retention
+  from provider import CortextMemoryProvider
+
+  class CortextNaturalProvider(CortextMemoryProvider):
+    def _process_text(self, text: str, source: str, retention: Any) -> dict[str, Any]:
+      if retention == Retention.DURABLE:
+        retention = Retention.NATURAL
+      return super()._process_text(text, source, retention)
+
+  return CortextNaturalProvider()
+
+
 def make_holographic() -> Any:
   from plugins.memory.holographic import HolographicMemoryProvider
   # sync_turn is a no-op for Holographic; auto_extract is its only
@@ -320,6 +335,7 @@ def make_tencentdb() -> Any:
 
 FACTORIES: dict[str, Callable[[], Any]] = {
   "cortext": make_cortext,
+  "cortext-natural": make_cortext_natural,
   "holographic": make_holographic,
   "holographic-tools": make_holographic_tools,
   "mem0": make_mem0,
