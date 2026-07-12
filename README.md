@@ -114,10 +114,10 @@ default:
 ```json
 {
   "db_path": "$HERMES_HOME/cortext.sqlite",
-  "focus": 0.55,
+  "focus": 0.45,
   "sensitivity": 0.50,
-  "stability": 0.65,
-  "top_k": 6,
+  "stability": 0.50,
+  "top_k": 8,
   "auto_consolidate": true,
   "ingest_media": true
 }

@@ -52,15 +52,13 @@ class ProviderTests(unittest.TestCase):
     self.provider.on_post_tool_call(tool_name="terminal", args={}, result="ignored")
     self.provider._drain(); self.assertEqual(len(self.engine.calls), 1)
 
-  def test_user_turn_weighted_by_both_seams(self) -> None:
-    # Intentional: pre-turn + sync ingestion doubles user-turn weight, which
-    # measurably makes corrections supersede stale facts (see bench results).
+  def test_user_turn_not_double_ingested(self) -> None:
     self.provider._session_id = "s"
     self.provider.on_turn_start(1, "remember this fact")
     self.provider.sync_turn("remember this fact", "stored")
     self.provider._drain()
     texts = [call[0] for call in self.engine.calls]
-    self.assertEqual(texts.count("remember this fact"), 2); self.assertIn("stored", texts)
+    self.assertEqual(texts.count("remember this fact"), 1); self.assertIn("stored", texts)
 
   def test_registers_memory_provider_and_tool_result_hook(self) -> None:
     import provider

@@ -3,7 +3,7 @@
     "provider": "cortext",
     "ok": true,
     "error": "",
-    "ingest_seconds": 2.15,
+    "ingest_seconds": 4.59,
     "ingest_network_connections": 0,
     "recall_network_connections": 0,
     "tool_schema_count": 0,
@@ -13,10 +13,10 @@
     "probes": [
       {
         "probe_id": "vet-supersession",
-        "packet": "- Updated \u2014 Bailey's vet appointment is now July 14 at 2pm with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Noted: Bailey's vet appointment is July 12 at 9am with Dr. Okafor.\n- Tell me a joke about robots.\n- Tell me a joke about robots.",
-        "packet_chars": 388,
-        "packet_tokens": 97,
-        "recall_latency_ms": 11.498750012833625,
+        "packet": "- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Hi, I'm Maya. I just started using you as my daily assistant.\n- Avis rental for the Denver trip, got it.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\n- Understood, Python is your default for new projects.\n- Double espresso it is.\n- Got it, Priya owns the auth service.\n- Understood \u2014 deploys come from the release branch, never main.",
+        "packet_chars": 476,
+        "packet_tokens": 119,
+        "recall_latency_ms": 59.89775000489317,
         "matched_groups": [
           "july",
           "14",
@@ -27,11 +27,9 @@
           "bee|sting",
           "benadryl"
         ],
-        "stale_groups": [
-          "12|9am|9 am"
-        ],
+        "stale_groups": [],
         "offline_ok": true,
-        "answer": "I only know one confirmed detail about Bailey: the vet appointment is **July 14 at 2:00 PM with Dr. Okafor**.\n\nI **don\u2019t know** any specific medical or behavioral details the vet should know about Bailey from the information I have. If you want, you can tell me Bailey\u2019s symptoms, medications, allergies, or behavior, and I can help you make a vet note.",
+        "answer": "I only know one appointment detail: the vet appointment is on **July 14 at 2:00 PM** with **Dr. Okafor**.\n\nI **don\u2019t know any specific medical details about Bailey** that the vet should know. If you want, you can tell me Bailey\u2019s symptoms, medications, allergies, or behavior notes, and I can help you make a concise vet summary.",
         "answer_matched": [
           "july",
           "14",
@@ -45,39 +43,41 @@
       },
       {
         "probe_id": "deploy-process",
-        "packet": "- Reminder about our team process: we deploy from the release branch, never from main.\n- Reminder about our team process: we deploy from the release branch, never from main.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\n- Noted: staging lives at 10.0.4.7.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
-        "packet_chars": 452,
-        "packet_tokens": 113,
-        "recall_latency_ms": 15.735499997390434,
+        "packet": "- Understood \u2014 deploys come from the release branch, never main.\n- A new engineer joined us: Priya. She owns the auth service now.\n- Hi, I'm Maya. I just started using you as my daily assistant.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\n- Understood, Python is your default for new projects.\n- Got it, Priya owns the auth service.\n- Avis rental for the Denver trip, got it.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
+        "packet_chars": 517,
+        "packet_tokens": 129,
+        "recall_latency_ms": 64.729375008028,
         "matched_groups": [
           "release",
-          "main",
+          "main"
+        ],
+        "missed_groups": [
           "10.0.4.7"
         ],
-        "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "Your team deploys from the **release branch**, not from `main`.\n\nYour staging server address is **10.0.4.7**.",
+        "answer": "I know one part of that: your team deploys from the **release branch**, not `main`.\n\nI don\u2019t have the **staging server address** in memory, so I can\u2019t say for sure. If you want, I can help you figure out where to look for it or draft a quick message to your team to confirm.",
         "answer_matched": [
           "release",
-          "main",
-          "10.0.4.7"
+          "main"
         ],
-        "answer_missed": []
+        "answer_missed": [
+          "10.0.4.7"
+        ]
       },
       {
         "probe_id": "auth-owner",
-        "packet": "- A new engineer joined us: Priya. She owns the auth service now.\n- A new engineer joined us: Priya. She owns the auth service now.\n- I booked Bailey's vet appointment: July 12 at 9am with Dr. Okafor.\n- I booked Bailey's vet appointment: July 12 at 9am with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
-        "packet_chars": 451,
-        "packet_tokens": 113,
-        "recall_latency_ms": 14.426207984797657,
+        "packet": "- Got it, Priya owns the auth service.\n- A new engineer joined us: Priya. She owns the auth service now.\n- Hi, I'm Maya. I just started using you as my daily assistant.\n- Understood \u2014 deploys come from the release branch, never main.\n- Avis rental for the Denver trip, got it.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\n- Understood, Python is your default for new projects.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
+        "packet_chars": 517,
+        "packet_tokens": 129,
+        "recall_latency_ms": 66.29333301680163,
         "matched_groups": [
           "priya"
         ],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "Priya owns the auth service now.",
+        "answer": "Priya owns the auth service on your team.",
         "answer_matched": [
           "priya"
         ],
@@ -85,39 +85,41 @@
       },
       {
         "probe_id": "travel-plans",
-        "packet": "- Do you think it'll rain this weekend?\n- Do you think it'll rain this weekend?\n- Tell me a joke about robots.\n- Tell me a joke about robots.\n- Double espresso it is.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.",
-        "packet_chars": 257,
-        "packet_tokens": 64,
-        "recall_latency_ms": 15.140458999667317,
-        "matched_groups": [],
-        "missed_groups": [
+        "packet": "- Understood, Python is your default for new projects.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\n- Avis rental for the Denver trip, got it.\n- I reserved a rental car with Avis for that trip.\n- Hi, I'm Maya. I just started using you as my daily assistant.\n- Double espresso it is.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- The Ridgeline loop, roughly 7 miles \u2014 sounds like a good weekend default.",
+        "packet_chars": 499,
+        "packet_tokens": 125,
+        "recall_latency_ms": 63.17375000799075,
+        "matched_groups": [
           "denver",
-          "august|aug 3|3",
           "avis|rental"
+        ],
+        "missed_groups": [
+          "august|aug 3|3"
         ],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "I don\u2019t know your upcoming travel plans from the information I have.\n\nThe only relevant upcoming item I can see is:\n- **Vet appointment:** July 14 at 2:00 PM with **Dr. Okafor**\n\nI don\u2019t have any details about travel, flights, or how you\u2019ll get around when you land. If you want, I can help you organize your trip if you share the destination, arrival time, and transportation options.",
-        "answer_matched": [],
-        "answer_missed": [
+        "answer": "From what I have in memory, your upcoming travel plan is the **Denver trip**.\n\nWhen you land, you\u2019re getting around with a **rental car from Avis**.",
+        "answer_matched": [
           "denver",
-          "august|aug 3|3",
           "avis|rental"
+        ],
+        "answer_missed": [
+          "august|aug 3|3"
         ]
       },
       {
         "probe_id": "language-preference",
-        "packet": "- Nice to meet you, Maya. I'll keep track of things as we go.\n- Reminder about our team process: we deploy from the release branch, never from main.\n- Tell me a joke about robots.\n- Tell me a joke about robots.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.\n- Our staging server is at 10.0.4.7, in case I ask you about deploys later.",
-        "packet_chars": 362,
-        "packet_tokens": 90,
-        "recall_latency_ms": 16.13020899822004,
-        "matched_groups": [],
-        "missed_groups": [
+        "packet": "- For new projects I prefer Python. I always use Python unless the team forces something else.\n- Understood, Python is your default for new projects.\n- Hi, I'm Maya. I just started using you as my daily assistant.\n- Avis rental for the Denver trip, got it.\n- Understood \u2014 deploys come from the release branch, never main.\n- Double espresso it is.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Got it, Priya owns the auth service.",
+        "packet_chars": 476,
+        "packet_tokens": 119,
+        "recall_latency_ms": 55.618374986806884,
+        "matched_groups": [
           "python"
         ],
+        "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "I can scaffold it in whatever language best fits your goals, but I don\u2019t know enough yet to recommend one confidently.\n\nA good default choice is usually:\n- **TypeScript** for web apps, APIs, and full-stack projects\n- **Python** for data, automation, ML, and quick prototypes\n- **Go** for fast, simple backend services\n- **Rust** for performance- and safety-critical systems\n\nIf you want, I can recommend one based on a few details:\n1. What are you building?\n2. Is it web, mobile, backend, CLI, or something else?\n3. Do you care more about speed of development or runtime performance?\n4. Will a team maintain it, or is it just for you?\n\nIf you want the shortest path, I\u2019d suggest **TypeScript** for most new product projects.",
+        "answer": "Python.",
         "answer_matched": [
           "python"
         ],
@@ -125,15 +127,15 @@
       },
       {
         "probe_id": "unknown-bait",
-        "packet": "- Tell me a joke about robots.\n- Tell me a joke about robots.\n- Double espresso it is.\n- Do you think it'll rain this weekend?\n- Do you think it'll rain this weekend?\n- 15% of 240 is 36.",
-        "packet_chars": 186,
-        "packet_tokens": 46,
-        "recall_latency_ms": 14.604916999815032,
+        "packet": "- Double espresso it is.\n- Understood, Python is your default for new projects.\n- For new projects I prefer Python. I always use Python unless the team forces something else.\n- Heads up: the vet appointment was moved. It's now July 14 at 2pm, still with Dr. Okafor.\n- Hi, I'm Maya. I just started using you as my daily assistant.\n- Got it, Priya owns the auth service.\n- Understood \u2014 deploys come from the release branch, never main.\n- Avis rental for the Denver trip, got it.",
+        "packet_chars": 476,
+        "packet_tokens": 119,
+        "recall_latency_ms": 58.48362497636117,
         "matched_groups": [],
         "missed_groups": [],
         "stale_groups": [],
         "offline_ok": true,
-        "answer": "I don\u2019t know your mother\u2019s maiden name. I don\u2019t have access to your personal records or private family information. If you want, I can help you think of safe ways to find it or suggest how to store it securely.",
+        "answer": "I don\u2019t know your mother\u2019s maiden name, and I shouldn\u2019t guess or invent it. If you want, I can help you figure out a safe way to retrieve it from records or family documents.",
         "answer_matched": [],
         "answer_missed": []
       }

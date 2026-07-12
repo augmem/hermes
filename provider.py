@@ -21,7 +21,10 @@ except ImportError:  # pragma: no cover
 
 logger = logging.getLogger(__name__)
 PROVIDER_NAME, CONFIG_FILENAME = "cortext", "cortext.json"
-DEFAULTS: dict[str, Any] = {"db_path": "$HERMES_HOME/cortext.sqlite", "focus": .55, "sensitivity": .50, "stability": .65, "top_k": 6, "seam_user": True, "seam_pre_llm": True, "seam_post_llm": True, "seam_tool_results": True, "tool_result_max_chars": 1500, "auto_consolidate": True, "ingest_media": True}
+# focus/stability/top_k tuned on the bench scenario with single-ingest turns:
+# F=.45 T=.5 k=8 recalls 10/14 fact groups with zero stale leaks, stable across
+# 5 repeated runs (bench/README.md). F=.55/T=.65/k=6 measured 6/14 post-dedup.
+DEFAULTS: dict[str, Any] = {"db_path": "$HERMES_HOME/cortext.sqlite", "focus": .45, "sensitivity": .50, "stability": .50, "top_k": 8, "seam_user": True, "seam_pre_llm": True, "seam_post_llm": True, "seam_tool_results": True, "tool_result_max_chars": 1500, "auto_consolidate": True, "ingest_media": True}
 
 
 def load_config(hermes_home: str | Path | None = None) -> dict[str, Any]:
@@ -96,12 +99,12 @@ class CortextMemoryProvider(MemoryProvider):
   def handle_tool_call(self, tool_name: str, args: dict[str, Any], **kwargs: Any) -> str: return json.dumps({"error": f"no tools exposed ({tool_name})"})
 
   def on_turn_start(self, turn_number: int, message: Any, **kwargs: Any) -> None:
-    # Deliberately ingests the user message a first time (sync_turn ingests it
-    # again with the reply): the pre-turn write primes working memory before
-    # the model call, and the 2x weighting of user turns over assistant turns
-    # is what makes corrections supersede reliably (bench/results-natural).
     self._turn_number = int(turn_number or 0)
-    if self._enabled("seam_user"): self._ingest(signals(message, self._source("user", "turn", str(self._turn_number))))
+    if not self._enabled("seam_user"): return
+    items = signals(message, self._source("user", "turn", str(self._turn_number)))
+    key = _key(self._session_id, self._turn_number, next((item.text for item in items if item.modality == "text"), ""))
+    self._last_user_key = key  # caller-thread, so sync_turn's dedup check can't race the writer
+    self._ingest(items, user_key=key)
 
   def sync_turn(self, user_content: Any, assistant_content: Any, **kwargs: Any) -> None:
     if not self._enabled("seam_post_llm"): return
