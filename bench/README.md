@@ -84,6 +84,27 @@ packets with no LLM in the loop at all.
   from each packet, plus a no-memory control, then blind-judges anonymized
   answers with a separate judge prompt.
 
+## Compaction ablation
+
+`compaction_ablation.py` compares context-compaction strategies on a
+6,638-token transcript (the scenario's facts buried in distractor chatter),
+forced compaction with identical protect windows (first 3 / last 6
+messages), then fact probes answered from the compacted context:
+
+| Arm | Facts kept | Stale leaks | Context tokens | Compaction time | LLM calls |
+| --- | --- | ---: | ---: | ---: | ---: |
+| No compaction (upper bound) | 14/14 | 0 | 6,638 | — | — |
+| Built-in summarizer | 13/14 | 0 | 2,191 | 8.7 s | 1 |
+| Built-in summarizer, aux LLM down | 0/14 | 0 | 716 | 0.6 s | 0 |
+| Cortext engine + provider | 11/14 | 0 | 3,242 | 0.02 s | 0 |
+
+The cortext arm pairs the context engine with the memory provider's
+per-probe prefetch, matching production behavior (the compacted bridge
+carries continuity; per-turn recall carries facts). The "aux LLM down" arm
+is the built-in's shipped fallback: when its auxiliary provider chain is
+unavailable it inserts a placeholder and drops the middle. The cortext
+context-token figure includes the mean per-probe prefetch packet.
+
 ## Caveats — read before quoting
 
 - **Holographic** stores facts primarily via model-invoked `fact_store`

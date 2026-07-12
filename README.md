@@ -48,16 +48,56 @@ This is what that unlocks in practice:
 - **Corrections that stick.** Cortext supersedes stale facts instead of
   hoarding contradictions — tell it the appointment moved, and the old time
   stops being recalled.
-- **Compaction that doesn't lobotomize.** When Hermes compresses its
-  context, the next memory packet backfills from Cortext's working memory —
-  the recent details the summary dropped come straight back.
+- **Compaction that doesn't lobotomize.** The plugin ships a full Hermes
+  context engine: compaction becomes a 20-millisecond local memory
+  operation instead of an auxiliary-LLM summarization call. Nothing is
+  irreversibly lost — every turn is already in the durable store — and it
+  keeps working when cloud LLMs are down (which is exactly when the
+  built-in summarizer silently drops your history).
 
 Memory management is automatic. There is no "save this" command, no memory
 tool for the model to call (or forget to call), and no LLM in the loop
 deciding what to keep. Cortext's write gate, decay, and consolidation decide —
 deterministically, on your machine.
 
-## Proven cold-start recall
+## Benchmarked against the providers people actually use
+
+Same scripted 4-session transcript through every provider's real Hermes
+seams, cold-start probes, blind LLM judging. Full method, caveats, and
+reproduction steps in [bench/README.md](bench/README.md); raw packets and
+verdicts in [bench/results/](bench/results/).
+
+| | **cortext** | mem0 (most popular, 60.5K★) | tencentdb (Tencent Cloud) | holographic (built-in default) |
+| --- | --- | --- | --- | --- |
+| Facts recalled (packet) | **10/14** | 8/14 | 4/14 | 0/14 |
+| Superseded facts leaked | **0** | 1 | 1 | 0 |
+| Effective tokens per turn | **194** | 435 | 1,387 | 632 |
+| Median recall latency | **15 ms** | 459 ms | 169 ms | — |
+| Blind-judge answer score | **56** | 35 | 36 | 26 (= no memory at all) |
+| Works offline | **yes** | no | no (LLM extraction) | yes |
+| LLM calls to maintain memory | **0** | every write | every write | 0 |
+| Model-visible tools | **0** | 3 | 2 | 2 |
+
+### Compaction ablation
+
+When context fills up, Hermes's built-in compactor summarizes history with
+an auxiliary LLM. The Cortext context engine replaces that with a local
+memory operation. Forced compaction of a 6,638-token transcript, then fact
+probes against the compacted context:
+
+| | Facts kept | Compaction time | LLM calls |
+| --- | --- | ---: | ---: |
+| No compaction (upper bound) | 14/14 | — | — |
+| Built-in summarizer | 13/14 | 8.7 s | 1 |
+| Built-in summarizer, **aux LLM down** | **0/14** | 0.6 s | 0 |
+| **Cortext engine** | **11/14** | **0.02 s** | **0** |
+
+The built-in keeps one more fact — when its cloud LLM chain is healthy.
+When it isn't, its shipped fallback silently drops your history. Cortext's
+compaction is ~400× faster, free, offline, and has no failure mode that
+costs you your memory. Reproduce: `python -m bench.compaction_ablation`.
+
+### Cold-start recall, verified live
 
 Not a demo script — a live control/treatment test against Hermes 0.15.2 with
 `gpt-5.4-mini`:
