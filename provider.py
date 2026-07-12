@@ -72,7 +72,7 @@ def _format(items: list[dict[str, Any]]) -> str:
 class CortextMemoryProvider(MemoryProvider):
   def __init__(self, config: dict[str, Any] | None = None) -> None:
     self._config = dict(config or DEFAULTS); self._engine: Any = None; self._session_id = "session"; self._turn_number = 0; self._agent_context = "primary"; self._user_id = "user"; self._agent_id = "agent"
-    self._lock = threading.Lock(); self._queue: queue.Queue[Any] = queue.Queue(); self._worker: threading.Thread | None = None; self._cache: tuple[str, str] = ("", ""); self._last_user_key = ""
+    self._lock = threading.Lock(); self._queue: queue.Queue[Any] = queue.Queue(); self._worker: threading.Thread | None = None; self._cache: tuple[str, str] = ("", ""); self._last_user_key = ""; self._wm_after_compress = False
 
   @property
   def name(self) -> str: return PROVIDER_NAME
@@ -117,8 +117,13 @@ class CortextMemoryProvider(MemoryProvider):
     if self._cache[0] == query: return self._cache[1]
     try:
       with self._lock: packet = self._process_text(query, self._source("agent", "prefetch"), Retention.EPHEMERAL)
-      memories = packet.get("retrieved_memory") or []
-      block = _format([item for item in memories if isinstance(item, dict)]); self._cache = (query, block); return block
+      items = list(packet.get("retrieved_memory") or [])
+      if self._wm_after_compress:
+        # Hermes just compressed its context away; Cortext's working memory is
+        # the replacement for the recent detail the summary dropped. On normal
+        # turns WM stays out — Hermes still holds the live conversation.
+        items += packet.get("working_memory") or []; self._wm_after_compress = False
+      block = _format([item for item in items if isinstance(item, dict)]); self._cache = (query, block); return block
     except Exception as exc: logger.warning("Cortext prefetch failed: %s", exc); return ""
 
   def queue_prefetch(self, query: str, **kwargs: Any) -> None: self._enqueue(lambda: self.prefetch(query))
@@ -146,6 +151,7 @@ class CortextMemoryProvider(MemoryProvider):
   def on_pre_compress(self, messages: list[dict[str, Any]]) -> str:
     for message in messages[-3:]:
       if isinstance(message, dict) and message.get("role") == "user": self._ingest(signals(message.get("content"), self._source("user", "pre_compress")))
+    self._wm_after_compress = True; self._cache = ("", "")
     return ""
 
   def on_session_switch(self, new_session_id: str, **kwargs: Any) -> None: self._session_id = new_session_id or self._session_id; self._cache = ("", ""); self._last_user_key = ""

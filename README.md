@@ -48,6 +48,9 @@ This is what that unlocks in practice:
 - **Corrections that stick.** Cortext supersedes stale facts instead of
   hoarding contradictions — tell it the appointment moved, and the old time
   stops being recalled.
+- **Compaction that doesn't lobotomize.** When Hermes compresses its
+  context, the next memory packet backfills from Cortext's working memory —
+  the recent details the summary dropped come straight back.
 
 Memory management is automatic. There is no "save this" command, no memory
 tool for the model to call (or forget to call), and no LLM in the loop

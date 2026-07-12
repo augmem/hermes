@@ -42,6 +42,17 @@ class ProviderTests(unittest.TestCase):
     self.provider._session_id, self.provider._user_id, self.provider._agent_id = "s/1", "alice smith", "hermes"
     self.assertEqual(self.provider._source("user", "turn", "2"), "hermes/user/alice_smith/s_1/turn/2")
 
+  def test_working_memory_backfills_only_after_compression(self) -> None:
+    wm_packet = {"retrieved_memory": [{"text": "durable fact"}], "working_memory": [{"text": "recent detail"}]}
+    self.engine.responses = [dict(wm_packet)]
+    self.assertNotIn("recent detail", self.provider.prefetch("q1"))
+    self.provider.on_pre_compress([{"role": "user", "content": "latest"}])
+    self.engine.responses = [dict(wm_packet)]
+    block = self.provider.prefetch("q2")
+    self.assertIn("durable fact", block); self.assertIn("recent detail", block)
+    self.engine.responses = [dict(wm_packet)]
+    self.assertNotIn("recent detail", self.provider.prefetch("q3"))
+
   def test_tool_results_are_ingested_durable_and_truncated(self) -> None:
     self.provider._config["tool_result_max_chars"] = 200
     self.provider.on_post_tool_call(tool_name="terminal", args={"command": "backup.sh"}, result="Restore took 42 minutes. " + "x" * 500, session_id="s")
