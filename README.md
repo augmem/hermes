@@ -168,8 +168,9 @@ default:
 `focus`, `sensitivity`, and `stability` are Cortext's three homeostatic
 control knobs — retrieval selectivity, responsiveness to surprising input,
 and preference for durable context. The engine decides how much to recall;
-everything it returns (long-term retrieval plus active working memory) is
-injected as-is.
+everything it retrieves is injected as-is (working memory joins the packet
+only right after a context compaction, when it replaces the discarded
+recent context).
 
 ## How it ships
 
