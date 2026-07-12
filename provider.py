@@ -21,7 +21,7 @@ except ImportError:  # pragma: no cover
 
 logger = logging.getLogger(__name__)
 PROVIDER_NAME, CONFIG_FILENAME = "cortext", "cortext.json"
-DEFAULTS: dict[str, Any] = {"db_path": "$HERMES_HOME/cortext.sqlite", "focus": .55, "sensitivity": .50, "stability": .65, "top_k": 6, "seam_user": True, "seam_pre_llm": True, "seam_pre_tool": True, "seam_post_llm": True, "auto_consolidate": True, "ingest_media": True}
+DEFAULTS: dict[str, Any] = {"db_path": "$HERMES_HOME/cortext.sqlite", "focus": .55, "sensitivity": .50, "stability": .65, "top_k": 6, "seam_user": True, "seam_pre_llm": True, "seam_post_llm": True, "auto_consolidate": True, "ingest_media": True}
 
 
 def load_config(hermes_home: str | Path | None = None) -> dict[str, Any]:
@@ -66,11 +66,6 @@ def _format(items: list[dict[str, Any]], limit: int) -> str:
   return "\n".join(result)
 
 
-def _intent(name: str, args: dict[str, Any] | None) -> str:
-  if not (name or "").strip(): return ""
-  return f"Proposed tool action: {name.strip()}\nArguments: {json.dumps(args or {}, ensure_ascii=False, sort_keys=True, default=str)}"[:2000]
-
-
 class CortextMemoryProvider(MemoryProvider):
   def __init__(self, config: dict[str, Any] | None = None) -> None:
     self._config = dict(config or DEFAULTS); self._engine: Any = None; self._session_id = "session"; self._turn_number = 0; self._agent_context = "primary"; self._user_id = "user"; self._agent_id = "agent"
@@ -84,7 +79,7 @@ class CortextMemoryProvider(MemoryProvider):
     except CortextError: return False
 
   def get_config_schema(self) -> list[dict[str, Any]]:
-    return [{"key": key, "default": str(self._config[key]), "description": key.replace("_", " ")} for key in ("db_path", "focus", "sensitivity", "stability", "seam_pre_tool")]
+    return [{"key": key, "default": str(self._config[key]), "description": key.replace("_", " ")} for key in ("db_path", "focus", "sensitivity", "stability")]
 
   def save_config(self, values: dict[str, Any], hermes_home: str) -> None:
     self._config.update({key: value for key, value in values.items() if key in DEFAULTS})
@@ -120,17 +115,6 @@ class CortextMemoryProvider(MemoryProvider):
     except Exception as exc: logger.warning("Cortext prefetch failed: %s", exc); return ""
 
   def queue_prefetch(self, query: str, **kwargs: Any) -> None: self._enqueue(lambda: self.prefetch(query))
-
-  def pre_tool_call(self, tool_name: str, args: dict[str, Any] | None, task_id: str = "", **kwargs: Any) -> dict[str, str] | None:
-    if not self._enabled("seam_pre_tool") or not self._engine or not self._writeable(): return None
-    text = _intent(tool_name, args)
-    if not text: return None
-    try:
-      with self._lock: packet = self._process_text(text, self._source("agent", "tool_intent", task_id or str(self._turn_number)), Retention.BOUNDARY)
-    except Exception as exc: logger.warning("Cortext tool gate failed: %s", exc); return None
-    if not packet.get("should_interrupt"): return None
-    context = _format([item for item in packet.get("retrieved_memory", []) if isinstance(item, dict)], min(2, int(self._config.get("top_k", 6))))
-    return {"action": "block", "message": "Reconsider this action using the following prior context:\n" + context} if context else None
 
   def on_session_end(self, messages: list[dict[str, Any]]) -> None:
     self._drain()
@@ -188,4 +172,4 @@ def _worker(q: queue.Queue[Any]) -> None:
 def _safe(value: str) -> str: return "".join(char if char.isalnum() or char in "-_.@" else "_" for char in value) or "session"
 def _key(session: str, turn: int, text: str) -> str: return f"{session}:{turn}:{hashlib.sha256(text.encode()).hexdigest()[:16]}" if turn and text else ""
 def register(ctx: Any) -> None:
-  provider = CortextMemoryProvider(load_config(os.environ.get("HERMES_HOME"))); ctx.register_memory_provider(provider); ctx.register_hook("pre_tool_call", provider.pre_tool_call)
+  provider = CortextMemoryProvider(load_config(os.environ.get("HERMES_HOME"))); ctx.register_memory_provider(provider)

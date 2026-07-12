@@ -30,16 +30,6 @@ class ProviderTests(unittest.TestCase):
     block = self.provider.prefetch("when is the vet?")
     self.assertIn("vet is July 14", block); self.assertNotIn("cortext", block.lower())
 
-  def test_action_gate_uses_boundary_and_only_blocks_interrupt(self) -> None:
-    # BOUNDARY forces the turn edge so retrieval (and the interrupt gate) runs;
-    # NATURAL never retrieves mid-episode, leaving the gate without candidates.
-    self.engine.responses = [{"should_interrupt": True, "retrieved_memory": [{"text": "do not delete production"}]}]
-    result = self.provider.pre_tool_call("terminal", {"command": "rm -rf prod"}, "task")
-    self.assertEqual(result and result["action"], "block"); self.assertIn("do not delete production", result["message"] if result else "")
-    self.assertEqual(self.engine.calls[0][1], Retention.BOUNDARY)
-    self.engine.responses = [{"should_interrupt": False, "retrieved_memory": [{"text": "ignored"}]}]
-    self.assertIsNone(self.provider.pre_tool_call("terminal", {"command": "pwd"}))
-
   def test_turn_ingest_is_durable_and_shutdown_closes_engine(self) -> None:
     self.provider.on_turn_start(1, "remember this")
     self.provider._drain(); self.assertIn(("remember this", Retention.DURABLE), self.engine.calls)
@@ -52,11 +42,11 @@ class ProviderTests(unittest.TestCase):
     self.provider._session_id, self.provider._user_id, self.provider._agent_id = "s/1", "alice smith", "hermes"
     self.assertEqual(self.provider._source("user", "turn", "2"), "hermes/user/alice_smith/s_1/turn/2")
 
-  def test_registers_memory_provider_and_only_action_hook(self) -> None:
+  def test_registers_memory_provider_with_no_extra_hooks(self) -> None:
     import provider
     entries: list[Any] = []; hooks: list[str] = []
     class Context:
       def register_memory_provider(self, item: Any) -> None: entries.append(item)
       def register_hook(self, name: str, callback: Any) -> None: hooks.append(name)
     provider.register(Context())
-    self.assertEqual(entries[0].name, "cortext"); self.assertEqual(hooks, ["pre_tool_call"])
+    self.assertEqual(entries[0].name, "cortext"); self.assertEqual(hooks, [])

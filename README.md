@@ -84,11 +84,7 @@ This provider is intentionally silent:
 
 - no `cortext_*` tools for the model;
 - no system-prompt branding;
-- recalled facts arrive as plain prior context;
-- action gating processes tool intent at a forced retrieval boundary
-  (`Retention.BOUNDARY`) and returns Hermes's block directive only when
-  Cortext says to interrupt *and* retrieved context can explain why — so
-  your agent can be stopped from repeating a mistake it has already made.
+- recalled facts arrive as plain prior context.
 
 Text, WAV audio, and non-interlaced 8-bit PNG images work with no Python
 dependencies. Other image containers are skipped rather than silently adding
