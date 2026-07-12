@@ -42,11 +42,31 @@ class ProviderTests(unittest.TestCase):
     self.provider._session_id, self.provider._user_id, self.provider._agent_id = "s/1", "alice smith", "hermes"
     self.assertEqual(self.provider._source("user", "turn", "2"), "hermes/user/alice_smith/s_1/turn/2")
 
-  def test_registers_memory_provider_with_no_extra_hooks(self) -> None:
+  def test_tool_results_are_ingested_durable_and_truncated(self) -> None:
+    self.provider._config["tool_result_max_chars"] = 200
+    self.provider.on_post_tool_call(tool_name="terminal", args={"command": "backup.sh"}, result="Restore took 42 minutes. " + "x" * 500, session_id="s")
+    self.provider._drain()
+    text, retention = self.engine.calls[0]
+    self.assertIn("Restore took 42 minutes", text); self.assertLessEqual(len(text), 200); self.assertEqual(retention, Retention.DURABLE)
+    self.provider._config["seam_tool_results"] = False
+    self.provider.on_post_tool_call(tool_name="terminal", args={}, result="ignored")
+    self.provider._drain(); self.assertEqual(len(self.engine.calls), 1)
+
+  def test_user_turn_weighted_by_both_seams(self) -> None:
+    # Intentional: pre-turn + sync ingestion doubles user-turn weight, which
+    # measurably makes corrections supersede stale facts (see bench results).
+    self.provider._session_id = "s"
+    self.provider.on_turn_start(1, "remember this fact")
+    self.provider.sync_turn("remember this fact", "stored")
+    self.provider._drain()
+    texts = [call[0] for call in self.engine.calls]
+    self.assertEqual(texts.count("remember this fact"), 2); self.assertIn("stored", texts)
+
+  def test_registers_memory_provider_and_tool_result_hook(self) -> None:
     import provider
     entries: list[Any] = []; hooks: list[str] = []
     class Context:
       def register_memory_provider(self, item: Any) -> None: entries.append(item)
       def register_hook(self, name: str, callback: Any) -> None: hooks.append(name)
     provider.register(Context())
-    self.assertEqual(entries[0].name, "cortext"); self.assertEqual(hooks, [])
+    self.assertEqual(entries[0].name, "cortext"); self.assertEqual(hooks, ["post_tool_call"])

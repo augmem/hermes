@@ -21,7 +21,7 @@ except ImportError:  # pragma: no cover
 
 logger = logging.getLogger(__name__)
 PROVIDER_NAME, CONFIG_FILENAME = "cortext", "cortext.json"
-DEFAULTS: dict[str, Any] = {"db_path": "$HERMES_HOME/cortext.sqlite", "focus": .55, "sensitivity": .50, "stability": .65, "top_k": 6, "seam_user": True, "seam_pre_llm": True, "seam_post_llm": True, "auto_consolidate": True, "ingest_media": True}
+DEFAULTS: dict[str, Any] = {"db_path": "$HERMES_HOME/cortext.sqlite", "focus": .55, "sensitivity": .50, "stability": .65, "top_k": 6, "seam_user": True, "seam_pre_llm": True, "seam_post_llm": True, "seam_tool_results": True, "tool_result_max_chars": 1500, "auto_consolidate": True, "ingest_media": True}
 
 
 def load_config(hermes_home: str | Path | None = None) -> dict[str, Any]:
@@ -96,6 +96,10 @@ class CortextMemoryProvider(MemoryProvider):
   def handle_tool_call(self, tool_name: str, args: dict[str, Any], **kwargs: Any) -> str: return json.dumps({"error": f"no tools exposed ({tool_name})"})
 
   def on_turn_start(self, turn_number: int, message: Any, **kwargs: Any) -> None:
+    # Deliberately ingests the user message a first time (sync_turn ingests it
+    # again with the reply): the pre-turn write primes working memory before
+    # the model call, and the 2x weighting of user turns over assistant turns
+    # is what makes corrections supersede reliably (bench/results-natural).
     self._turn_number = int(turn_number or 0)
     if self._enabled("seam_user"): self._ingest(signals(message, self._source("user", "turn", str(self._turn_number))))
 
@@ -115,6 +119,19 @@ class CortextMemoryProvider(MemoryProvider):
     except Exception as exc: logger.warning("Cortext prefetch failed: %s", exc); return ""
 
   def queue_prefetch(self, query: str, **kwargs: Any) -> None: self._enqueue(lambda: self.prefetch(query))
+
+  def on_post_tool_call(self, tool_name: str = "", args: dict[str, Any] | None = None, result: Any = "", session_id: str = "", **kwargs: Any) -> None:
+    """Plugin hook (not part of the MemoryProvider ABC): remember what tools
+    actually did. Hermes never routes tool results through memory seams."""
+    if not self._enabled("seam_tool_results") or not self._engine or not self._writeable(): return None
+    limit = max(200, int(self._config.get("tool_result_max_chars", 1500)))
+    parts = [f"Tool {str(tool_name or 'unknown').strip()} ran"]
+    if args: parts.append("with " + json.dumps(args, ensure_ascii=False, sort_keys=True, default=str)[:300])
+    text_result = str(result or "").strip()
+    if text_result: parts.append("and returned: " + text_result)
+    text = " ".join(parts)[:limit]
+    if len(text) > 40: self._ingest([MediaSignal("text", self._source("agent", "tool", _safe(str(tool_name or "tool"))), text=text)])
+    return None
 
   def on_session_end(self, messages: list[dict[str, Any]]) -> None:
     self._drain()
@@ -142,14 +159,14 @@ class CortextMemoryProvider(MemoryProvider):
   def _writeable(self) -> bool: return self._agent_context in {"", "primary"}
   def _source(self, role: str, *parts: str) -> str: return "/".join(["hermes", role, _safe(self._user_id if role == "user" else self._agent_id), _safe(self._session_id), *(_safe(part) for part in parts)])
   def _process_text(self, text: str, source: str, retention: Retention) -> dict[str, Any]: return self._engine.process_text(text, source, include_embedding=False, retention=retention)
-  def _ingest(self, items: list[MediaSignal], user_key: str = "") -> None:
-    if self._engine and self._writeable(): self._enqueue(lambda: self._write(items, user_key))
-  def _write(self, items: list[MediaSignal], user_key: str) -> None:
+  def _ingest(self, items: list[MediaSignal], user_key: str = "", retention: Retention = Retention.DURABLE) -> None:
+    if self._engine and self._writeable(): self._enqueue(lambda: self._write(items, user_key, retention))
+  def _write(self, items: list[MediaSignal], user_key: str, retention: Retention = Retention.DURABLE) -> None:
     try:
       with self._lock:
         for item in items:
           if item.is_empty(): continue
-          if item.modality == "text": self._process_text(item.text, item.source_id, Retention.DURABLE)
+          if item.modality == "text": self._process_text(item.text, item.source_id, retention)
           elif item.modality == "audio" and self._enabled("ingest_media"): self._engine.process_audio(item.pcm or [], item.source_id, retention=Retention.DURABLE, media=item.original, media_mimetype=item.mimetype)
           elif item.modality == "image" and self._enabled("ingest_media"): self._engine.process_image(item.data, item.width, item.height, item.channels, item.source_id, retention=Retention.DURABLE, media=item.original, media_mimetype=item.mimetype)
         self._engine.flush(); self._cache = ("", ""); self._last_user_key = user_key or self._last_user_key
@@ -172,4 +189,4 @@ def _worker(q: queue.Queue[Any]) -> None:
 def _safe(value: str) -> str: return "".join(char if char.isalnum() or char in "-_.@" else "_" for char in value) or "session"
 def _key(session: str, turn: int, text: str) -> str: return f"{session}:{turn}:{hashlib.sha256(text.encode()).hexdigest()[:16]}" if turn and text else ""
 def register(ctx: Any) -> None:
-  provider = CortextMemoryProvider(load_config(os.environ.get("HERMES_HOME"))); ctx.register_memory_provider(provider)
+  provider = CortextMemoryProvider(load_config(os.environ.get("HERMES_HOME"))); ctx.register_memory_provider(provider); ctx.register_hook("post_tool_call", provider.on_post_tool_call)
